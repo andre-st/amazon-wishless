@@ -42,22 +42,21 @@ $ firefox wishlist.xml
 ## Customization
 
 ```text
-                  |                  |
 settings.py       | wishlist.xslt    | wishlist.css
+wishtlist.xml     |                  |
                   |                  |
 ------------------+------------------+-----------------
 ::::::::::::::::::|                  |
-::SCRAPER:::::::::| <wishlist.xml>   |
+::SCRAPER:::::::::| wishlist.xml*    |
 ::::::::::::::::::|                  |
 ------------------+------------------+-----------------
                   |::::::::::::::::::|
-                  |::BROWSER:::::::::| <html>
+                  |::BROWSER:::::::::| html*
                   |::XSLT-PROCESSOR::|
 ------------------+------------------+-----------------
                   |                  |:::::::::::::::::
                   |                  |::BROWSER::::::::
                   |                  |:::::::::::::::::
-
 
 top-to-bottom: inputs
 left-to-right: outputs
