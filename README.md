@@ -44,7 +44,7 @@ $ firefox wishlist.xml
 Components, inputs (read top-to-bottom) and outputs (read left-to-right):
 
 ```text
-Amazon-Website    |                  |
+amazon website    |                  |
 settings.py       | wishlist.xslt    | wishlist.css
 wishlist.xml      |                  |
 ------------------+------------------+-----------------
