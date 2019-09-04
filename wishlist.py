@@ -13,13 +13,13 @@ from xml.dom import minidom
 # ----------------------------------------------------------------------------
 class Product:
 	def __init__( self, li ):
-		used_price_str = li.css( '.itemUsedAndNewPrice::text'  ).get()    
-		rel_url        = li.css( 'a[id^=itemName]::attr(href)' ).get( default = '' )
-		self.id        = li.attrib['data-itemid']  # is not an ASIN
-		self.imgurl    = li.css( 'img::attr(src)'                      ).get()
+    		self.id        = li.attrib['data-itemid']  # is not an ASIN
+		used_price_str =      li.css( '.itemUsedAndNewPrice::text'          ).get()    
+		rel_url        =      li.css( 'a[id^=itemName]::attr(href)'         ).get( default = '' )
+		self.imgurl    =      li.css( 'img::attr(src)'                      ).get()
 		self.priority  = int( li.css( '#itemPriority_' + self.id + '::text' ).get( default = 0  ))
-		self.comment   = li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
-		self.title     = li.css( '#itemName_'     + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
+		self.comment   =      li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
+		self.title     =      li.css( '#itemName_'     + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
 		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
 		self.price     = float( li.attrib['data-price'] )  # "-Infinity" or "123.5" (always US-locale)
 		
@@ -28,7 +28,6 @@ class Product:
 			self.price     = locale.atof( used_price_mat.group( 'amount' ))   # Comma vs dot
 		
 		self.price_l10n = locale.currency( self.price )
-
 
 
 
@@ -42,18 +41,14 @@ class Wishlist:
 		self.minpriority    = filter_minpriority
 		self.first_more_url = self.add_response( response )
 	
-	
 	def __iter__( self ):
 		return iter( self.filtered() )
-	
 	
 	def __len__( self ):
 		return len( self.filtered() )
 	
-	
 	def filtered( self ):
 		return [ p for p in self.products if p.price >= 0 and p.price <= self.maxprice and p.priority >= self.minpriority ]
-	
 		
 	def add_response( self, response ):
 		"""Returns URL for next HTML part of successively loaded wishlist (infinite scrolling)"""
@@ -64,7 +59,6 @@ class Wishlist:
 
 
 
-
 # ----------------------------------------------------------------------------
 class YourLists:
 	def __init__( self, response, excludes = settings.WISHLISTS_EXCLUDES ):
@@ -72,18 +66,14 @@ class YourLists:
 		rel_urls      = response.css( '#your-lists-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
 		self.urls     = [ 'https://' + settings.AMAZON_HOST + u for u in rel_urls ]
 	
-	
 	def __iter__( self ):
 		return iter( self.filtered() )
-	
 	
 	def __len__( self ):
 		return len( self.filtered() )
 	
-	
 	def filtered( self ):
 		return [ u for u in self.urls if u not in self.excludes ]
-
 
 
 
@@ -92,10 +82,8 @@ class XmlWishlistReader:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
 		self._doc = minidom.parse( filename ) 
 	
-	
 	def get_product_ids( self ):
 		return [ x.attributes['id'].value for x in self._doc.getElementsByTagName( 'product' )]
-
 
 
 
@@ -110,20 +98,17 @@ class XmlWishlistWriter:
 			self.isfirst = True
 			self._old_ids = []
 	
-	
 	def __enter__( self ):
 		self._doc = minidom.Document()
 		self._doc.appendChild( self._doc.createProcessingInstruction( 'xml-stylesheet', 'type="text/xsl" href="wishlist.xslt"' ))
 		self._doc.appendChild( self._doc.createElement( 'amazon' ))
 		return self
 	
-	
 	def __exit__( self, type, value, traceback ):
 		f = open( self.filename, 'w' )
 		self._doc.writexml( f, indent = "\t", addindent = "\t", newl = "\n" )
 		self._doc.unlink()
 		f.close()
-	
 	
 	def write_wl( self, wishlists ):
 		for wl in wishlists:
@@ -153,7 +138,6 @@ class XmlWishlistWriter:
 				titnode = self._doc.createElement( 'title'    )
 				prcnode = self._doc.createElement( 'price'    )
 				cmtnode = self._doc.createElement( 'comment'  )
-				
 				urlnode.appendChild( self._doc.createTextNode( product.url        ))
 				picnode.appendChild( self._doc.createTextNode( product.imgurl     ))
 				titnode.appendChild( self._doc.createTextNode( product.title      ))
@@ -170,7 +154,6 @@ class XmlWishlistWriter:
 
 
 
-
 # ----------------------------------------------------------------------------
 class WishlistsSpider( scrapy.Spider ):
 	# Spider:
@@ -180,17 +163,14 @@ class WishlistsSpider( scrapy.Spider ):
 	# My:
 	_lists = [];
 	
-	
 	# Spider:
 	def closed( self, reason ):
 		with XmlWishlistWriter() as w:
 			w.write_wl( self._lists )
 	
-	
 	def parse( self, response ):
 		for url in YourLists( response ):
 			yield Request( url, callback = self.parse_wl )
-	
 	
 	# My:
 	def parse_wl( self, response ):
