@@ -41,7 +41,27 @@ $ firefox wishlist.xml
 
 ## Customization
 
-![Components](README-components.png?raw=true "Components")
+```text
+                  |                  |
+settings.py       | wishlist.xslt    | wishlist.css
+                  |                  |
+------------------+------------------+-----------------
+::::::::::::::::::|                  |
+::SCRAPER:::::::::| <wishlist.xml>   |
+::::::::::::::::::|                  |
+------------------+------------------+-----------------
+                  |::::::::::::::::::|
+                  |::BROWSER:::::::::| <html>
+                  |::XSLT-PROCESSOR::|
+------------------+------------------+-----------------
+                  |                  |:::::::::::::::::
+                  |                  |::BROWSER::::::::
+                  |                  |:::::::::::::::::
+
+
+top-to-bottom: inputs
+left-to-right: outputs
+```
 
 Your wishlists are exported to `wishlist.xml`, which is generated based on:
 - the filter rules in `settings.py` (MAXPRICE, EXCLUDES, MINPRIORITY etc)
