@@ -91,12 +91,14 @@ class XmlWishlistReader:
 class XmlWishlistWriter:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
 		self.filename = filename
+		self.isfirst  = True
+		self._old_ids = []
 		if os.path.exists( filename ):
-			self.isfirst = False
-			self._old_ids = XmlWishlistReader( filename ).get_product_ids()
-		else:
-			self.isfirst = True
-			self._old_ids = []
+			try:
+				self._old_ids = XmlWishlistReader( filename ).get_product_ids()
+				self.isfirst = False
+			except:
+				print( "[WARN] Old {} is corrupt and will be recreated".format( filename ))
 	
 	def __enter__( self ):
 		self._doc = minidom.Document()
