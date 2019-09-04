@@ -42,7 +42,7 @@ $ firefox wishlist.xml
 
 ## Customization
 
-Components (uppercase), inputs (read top-to-bottom) and outputs (read left-to-right):
+Components (uppercase), their inputs (cells above) and outputs (cells to the right):
 
 ```text
   settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
