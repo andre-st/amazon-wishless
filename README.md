@@ -26,7 +26,7 @@ with the items filtered according to price, priority etc.
 
 GNU/Linux terminal:
 
-```sh
+```console
 $ git clone https://github.com/andre-st/amazon-wishlist
 $ cd amazon-wishlist
 $ mv settings.py-example settings.py
