@@ -59,10 +59,9 @@ wishlist.xml      |                  |
                   |                  |:::::::::::::::::
                   |                  |::BROWSER::::::::
                   |                  |:::::::::::::::::
-
-top-to-bottom: inputs
-left-to-right: outputs
 ```
+_top-to-bottom = inputs, left-to-right = outputs_
+
 
 The scraper exports to `wishlist.xml`, which is generated based on:
 - the filter rules in `settings.py` (MAXPRICE, EXCLUDES, MINPRIORITY etc)
@@ -72,7 +71,7 @@ Modern web-browsers also layout the exported plain XML-file based on:
 - the HTML document structure rules in `wishlist.xslt` (headings, sections, ...)
 - the HTML document presentation rules in `wishlist.css` (colors, fonts, ...)
 
-The `wishlist.xslt` currently declares a document with:
+The `wishlist.xslt` currently declares the output document structure with:
 - a section that only displays changes (newcomers)
 - a section that only displays the most important items from all lists together
 - multiple sections for all individual lists with their items
