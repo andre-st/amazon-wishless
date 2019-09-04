@@ -45,44 +45,35 @@ $ firefox wishlist.xml
 Components, inputs (read top-to-bottom) and outputs (read left-to-right):
 
 ```text
-  amazon website    |                    |                    |
-  settings.py       |  wishlist.xslt     |  wishlist.css      |
-  wishlist.xml      |                    |                    |
---------------------+--------------------+--------------------|
-::::::::::::::::::::|                    |                    |
-::SCRAPER:::::::::::|  wishlist.xml*     |                    |
-::::::::::::::::::::|                    |                    |
---------------------+--------------------+--------------------|
-                    |::::::::::::::::::::|                    |
-                    |::BROWSER-INTERN::::|  html              |
-                    |::XSLT-PROCESSOR::::|                    |
---------------------+--------------------+--------------------|
-                    |                    |::::::::::::::::::::|
-                    |                    |::BROWSER:::::::::::|
-                    |                    |::::::::::::::::::::|
+  settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
+  (filter rules)    |  (headings,        |  (colors,fonts)    |                    |
+                    |   sections)        |                    |                    |
+  wishlist.xml      |                    |                    |                    |
+  (to find changes) |                    |                    |                    |
+                    |                    |                    |                    |
+  amazon website    |                    |                    |                    |
+                    |                    |                    |                    |
+--------------------+--------------------+--------------------+--------------------|
+::::::::::::::::::::|                    |                    |                    |
+::SCRAPER:::::::::::|  wishlist.xml*     |                    |                    |
+::::::::::::::::::::|  (data)            |                    |                    |
+::::::::::::::::::::|                    |                    |                    |
+--------------------+--------------------+--------------------+--------------------|
+                    |::::::::::::::::::::|                    |                    |
+                    |::BROWSER-INTERN::::|  html              |                    |
+                    |::XSLT-PROCESSOR::::|                    |                    |
+                    |::::::::::::::::::::|                    |                    |
+--------------------+--------------------+--------------------+--------------------|
+                    |                    |::::::::::::::::::::|                    |
+                    |                    |::BROWSER:::::::::::|  rendered webpage  |
+                    |                    |::::::::::::::::::::|                    |
 ```
 
-
-The scraper generates `wishlist.xml` based on:
-- the filter rules in `settings.py` (MAXPRICE, EXCLUDES, MINPRIORITY etc)
-- the old `wishlist.xml` (if exists) in order to identify changes
-
-Modern web-browsers show the exported plain XML-file based on:
-- the HTML document structure rules in `wishlist.xslt` (headings, sections, ...)
-- the HTML document presentation rules in `wishlist.css` (colors, fonts, ...)
-
-The `wishlist.xslt` currently declares the output document structure with:
-- a section that only displays changes (newcomers)
-- a section that only displays the most important items from all lists together
-- multiple sections for all individual lists with their items
 
 XSLT is a declarative, Turing-complete language for transforming 
 XML documents into other XML documents (HTML in this case). 
 XSLT runs queries against the XML-file and feeds the result into templates
 with placeholders. 
-
-CSS is a stylesheet language used to describe how elements should be rendered
-on screen etc.
 
 XML, XSLT and CSS are supported by modern web-browsers out of the box.
 
