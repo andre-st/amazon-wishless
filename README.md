@@ -43,14 +43,14 @@ $ firefox wishlist.xml
 
 Your wishlists are exported to `wishlist.xml`, which is generated based on:
 - the filter rules in `settings.py` (MAXPRICE, EXCLUDES etc)
-- the old `wishlist.xml` (if exists) in order to identify newcomers
+- the old `wishlist.xml` (if exists) in order to identify changes
 
 Modern web-browsers display the exported XML-file based on:
 - the HTML document structure rules in `wishlist.xslt` (headings, sections, ...)
 - the HTML document presentation rules in `wishlist.css` (colors, fonts, ...)
 
 The `wishlist.xslt` currently describes:
-- a section that only displays newcomers
+- a section that only displays changes (newcomers)
 - a section that only displays the most important items from all lists together
 - multiple sections for all individual lists with their items
 
@@ -66,8 +66,8 @@ XML, XSLT and CSS are supported by modern web-browsers out of the box.
 
 **Remarks:**
 
-One could do the price-filtering etc through the XSLT-file too, 
-but newcomers-id wouldn't work anymore (with just 1 XML-file at least).
+One could do the filtering through the XSLT-file too, 
+but tracking changes wouldn't work properly anymore (with just 1 XML-file at least).
 
 
 
