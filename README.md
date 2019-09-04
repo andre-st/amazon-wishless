@@ -41,7 +41,7 @@ $ firefox wishlist.xml
 
 ## Customization
 
-Components, inputs (read &darr;) and outputs (read &rarr;):
+Components, inputs (read top-to-bottom) and outputs (read left-to-right):
 
 ```text
                   |                  |
