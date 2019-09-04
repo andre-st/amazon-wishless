@@ -3,12 +3,12 @@
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current (2nd hand) prices is time consuming. 
 This scraper exports _all_ lists to a XML-file, 
-with the items filtered according to a maximum price.
+with the items filtered according to price, priority etc.
 
 
 ## This
 
-TODO
+![Screenshot](README-screenshot.png?raw=true "Screenshot")
 
 
 ## Requirements
@@ -41,8 +41,10 @@ $ firefox wishlist.xml
 
 ## Customization
 
+![Components](README-components.png?raw=true "Components")
+
 Your wishlists are exported to `wishlist.xml`, which is generated based on:
-- the filter rules in `settings.py` (MAXPRICE, EXCLUDES etc)
+- the filter rules in `settings.py` (MAXPRICE, EXCLUDES, MINPRIORITY etc)
 - the old `wishlist.xml` (if exists) in order to identify changes
 
 Modern web-browsers display the exported XML-file based on:
