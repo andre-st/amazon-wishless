@@ -174,18 +174,17 @@ class WishlistsSpider( scrapy.Spider ):
 			yield Request( url, callback = self.parse_wl )
 	
 	# My:
-	def parse_wl( self, response ):
-		if 'wishlist' in response.meta:
-			wl       = response.meta['wishlist']
-			more_url = wl.add_response( response )
+	def parse_wl( self, response, wishlist = None ):
+		if wishlist:
+			more_url = wishlist.add_response( response )
 		else:
-			wl       = Wishlist( response )
-			more_url = wl.first_more_url
-			self._lists.append( wl )
+			wishlist = Wishlist( response )
+			more_url = wishlist.first_more_url
+			self._lists.append( wishlist )
 		
 		# Infinite scroll "pagination"
 		if more_url:
-			yield Request( more_url, callback = self.parse_wl, meta = { 'wishlist': wl })
+			yield Request( more_url, callback = self.parse_wl, cb_kwargs = { 'wishlist': wishlist })
 
 
 
