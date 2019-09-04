@@ -20,7 +20,6 @@ WISHLISTS_EXCLUDES    = [ # Absolute URLs
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/ref=cm_go_nav_hz',   # My list 2
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/ref=cm_go_nav_hz'    # My list 3
 ]
-WISHLISTS_CSVPATH = './wishlist.csv'
 WISHLISTS_XMLPATH = './wishlist.xml'
 
 
