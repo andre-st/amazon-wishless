@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+# vim: set noai noexpandtab sts=0:
+
+#
+#
+# Howto: Amazon-Wishlist-Link
+#
+#
+
+import locale
+
+
+
+
+# Edit your wishlists settings:
+WISHLISTS_MAXPRICE    = 10.00    # Only output items that cost no more than MAXPRICE
+WISHLISTS_MINPRIORITY = 0        # Drop items with priority lower than x with -2 <= x <= 2 (highest)
+WISHLISTS_URL_ANY     = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
+WISHLISTS_EXCLUDES    = [ # Absolute URLs
+	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/ref=cm_go_nav_hz',   # My list 2
+	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/ref=cm_go_nav_hz'    # My list 3
+]
+WISHLISTS_CSVPATH = './wishlist.csv'
+WISHLISTS_XMLPATH = './wishlist.xml'
+
+
+# Edit your localization settings:
+AMAZON_HOST = 'www.amazon.de'                            # www.amazon.de, www.amazon.com, www.amazon.co.uk, ...
+DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # de, en, ...
+locale.setlocale( locale.LC_ALL, 'de_DE' )               # de_DE, en_US, en_GB, ...
+
+
+
+
+# Scrapy Settings:
+USER_AGENT = 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
+DOWNLOADER_MIDDLEWARES = {
+	'scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware': None,
+	'scrapy_httpcache.downloadermiddlewares.httpcache.AsyncHttpCacheMiddleware': 900,
+}
+HTTPCACHE_ENABLED = True
+HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+HTTPCACHE_POLICY  = 'scrapy.extensions.httpcache.DummyPolicy'
+#HTTPCACHE_IGNORE_HTTP_CODES = [301, 302, 500, 503]
+
+

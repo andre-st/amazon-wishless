@@ -1,0 +1,99 @@
+body
+{
+	font-family: sans-serif;
+	line-height: 1.45em;
+}
+
+h1
+{
+	font-size: 2.5em;
+}
+
+
+section
+{
+	clear: both;
+	margin: 2em 0;
+	float: left;
+}
+
+.latest h2:before
+{
+	content: "\1F4C9\0020";
+}
+
+h2
+{
+	font-size: 2em;
+	font-weight: bold;
+	clear: both;
+	padding: 0;
+	margin: 0 0 1em 0;
+	float: left;
+	width: 100%;
+}
+
+h2:after
+{
+	content: ":"
+}
+
+h2 > a
+{
+	color: #000;
+}
+
+wl-product
+{
+	display: inline-block;
+	width: 350px;
+	height: 200px;
+	overflow: hidden;
+	margin: 0 1em 1em 0em;
+	float: left;
+}
+
+wl-product img
+{
+	float: left;
+}
+
+wl-info
+{
+	float: left;
+	display: block;
+	width: 200px;
+}
+
+wl-product figure
+{
+	float: left;
+	display: block;
+	max-width: 150px;
+	padding: 0;
+	margin: 0;
+}
+
+wl-title
+{
+	display: block;
+	margin: 0.75em 0 0 0;
+}
+
+wl-price
+{
+	display: block;
+	font-size: 1.2em;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+
+wl-product[data-priority="2"]  { color: orange; }
+wl-product[data-priority="1"]  { color: red; }
+wl-product[data-priority="-1"] { color: #ccc; }
+wl-product[data-priority="-2"] { color: #ccc; }
+
+
+
+

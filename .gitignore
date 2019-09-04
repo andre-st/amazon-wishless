@@ -1,0 +1,17 @@
+*~
+*.bak
+*.tmp
+*.csv
+*.swp
+*.xml
+*.html
+*.log
+*.tar.gz
+*.zip
+*.cookie
+*.sh
+*.xcf
+__pycache__/
+*.py[cod]
+*$py.class
+settings.py
