@@ -73,9 +73,8 @@ Components (uppercase), their inputs (cells above) and outputs (cells to the rig
 XSLT is a declarative, Turing-complete language for transforming 
 XML documents into other XML documents (HTML in this case). 
 XSLT runs queries against the XML-file and feeds the result into templates
-with placeholders. 
-
-XML, XSLT and CSS are supported by modern web-browsers out of the box.
+with placeholders. The web-browser automatically loads and processes the XSLT and CSS files
+for `wishlist.xml`. XML, XSLT and CSS are supported by modern web-browsers out of the box.
 
 **Remarks:**
 
