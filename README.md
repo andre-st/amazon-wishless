@@ -41,6 +41,8 @@ $ firefox wishlist.xml
 
 ## Customization
 
+Components, Inputs and Outputs:
+
 ```text
                   |                  |
 settings.py       | wishlist.xslt    | wishlist.css
@@ -51,7 +53,7 @@ wishlist.xml      |                  |
 ::::::::::::::::::|                  |
 ------------------+------------------+-----------------
                   |::::::::::::::::::|
-                  |::BROWSER:::::::::| html*
+                  |::BROWSER-INTERN::| html*
                   |::XSLT-PROCESSOR::|
 ------------------+------------------+-----------------
                   |                  |:::::::::::::::::
@@ -62,11 +64,11 @@ top-to-bottom: inputs
 left-to-right: outputs
 ```
 
-Your wishlists are exported to `wishlist.xml`, which is generated based on:
+The scraper exports to `wishlist.xml`, which is generated based on:
 - the filter rules in `settings.py` (MAXPRICE, EXCLUDES, MINPRIORITY etc)
 - the old `wishlist.xml` (if exists) in order to identify changes
 
-Modern web-browsers display the exported XML-file based on:
+Modern web-browsers don't just display the exported XML-file but can format it based on:
 - the HTML document structure rules in `wishlist.xslt` (headings, sections, ...)
 - the HTML document presentation rules in `wishlist.css` (colors, fonts, ...)
 
