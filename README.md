@@ -34,7 +34,7 @@ $ vi settings.py        # vi or any other editor
 	# Edit your wishlists settings
 	# Edit your localization settings
 
-$ ./wishlist.sh
+$ scrapy runspider wishlist.py
 $ firefox wishlist.xml
 ```
 
