@@ -71,3 +71,16 @@ but tracking changes wouldn't work properly anymore (with just 1 XML-file at lea
 
 
 
+## Feedback
+
+If you like this project, you can "star" it on GitHub.
+Report bugs or suggestions [via GitHub](https://github.com/andre-st/amazon-wishlist/issues)
+or see the [AUTHORS.md](AUTHORS.md) file.
+
+
+
+## See also
+
+- [Andre's Goodreads Toolbox](https://github.com/andre-st/goodreads/blob/master/README.md)
+
+
