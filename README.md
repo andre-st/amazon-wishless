@@ -72,7 +72,7 @@ Modern web-browsers don't just display the exported XML-file but can format it b
 - the HTML document structure rules in `wishlist.xslt` (headings, sections, ...)
 - the HTML document presentation rules in `wishlist.css` (colors, fonts, ...)
 
-The `wishlist.xslt` currently describes:
+The `wishlist.xslt` currently declares:
 - a section that only displays changes (newcomers)
 - a section that only displays the most important items from all lists together
 - multiple sections for all individual lists with their items
