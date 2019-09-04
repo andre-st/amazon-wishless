@@ -1,14 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Howto:
-#	1. Run 
-#	   $ pip install scrapy
-#	   $ pip install scrapy-httpcache
-#	1. Edit settings.py
-#	2. Run scraper
-#	   $ scrapy runspider --nolog wishlists.py > output.html
-
-
 import locale
 import scrapy
 import os
