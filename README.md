@@ -46,17 +46,17 @@ Components (uppercase), their inputs (cells above) and outputs (cells to the rig
 
 ```text
   settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
-  (filter rules)    |  (headings,        |  (colors,fonts)    |                    |
+  (filter-rules)    |  (headings,        |  (colors,fonts)    |                    |
                     |   sections)        |                    |                    |
   wishlist.xml      |                    |                    |                    |
-  (to find changes) |                    |                    |                    |
+  (diff changes)    |                    |                    |                    |
                     |                    |                    |                    |
-  amazon website    |                    |                    |                    |
+  amazon-website    |                    |                    |                    |
                     |                    |                    |                    |
 --------------------+--------------------+--------------------+--------------------|
 ::::::::::::::::::::|                    |                    |                    |
 ::SCRAPER:::::::::::|  wishlist.xml*     |                    |                    |
-::::::::::::::::::::|  (data)            |                    |                    |
+::::::::::::::::::::|  (raw data)        |                    |                    |
 ::::::::::::::::::::|                    |                    |                    |
 --------------------+--------------------+--------------------+--------------------|
                     |::::::::::::::::::::|                    |                    |
