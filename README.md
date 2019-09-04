@@ -6,7 +6,7 @@ This scraper exports _all_ lists to a XML-file,
 with the items filtered according to price, priority etc.
 
 
-## This
+## Sample output
 
 ![Screenshot](README-screenshot.png?raw=true "Screenshot")
 
