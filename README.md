@@ -41,7 +41,7 @@ $ firefox wishlist.xml
 
 ## Customization
 
-Components, inputs and outputs:
+Components, inputs (read &darr;) and outputs (read &rarr;):
 
 ```text
                   |                  |
@@ -60,7 +60,6 @@ wishlist.xml      |                  |
                   |                  |::BROWSER::::::::
                   |                  |:::::::::::::::::
 ```
-_top-to-bottom = inputs, left-to-right = outputs_
 
 
 The scraper exports to `wishlist.xml`, which is generated based on:
