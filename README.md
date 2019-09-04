@@ -41,7 +41,7 @@ $ firefox wishlist.xml
 
 ## Customization
 
-Components, Inputs and Outputs:
+Components, inputs and outputs:
 
 ```text
                   |                  |
