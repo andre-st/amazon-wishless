@@ -9,7 +9,6 @@
 *.tar.gz
 *.zip
 *.cookie
-*.sh
 *.xcf
 __pycache__/
 *.py[cod]

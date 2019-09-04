@@ -8,7 +8,7 @@ with the items filtered according to a maximum price.
 
 ## This
 
-
+TODO
 
 
 ## Requirements
@@ -63,4 +63,11 @@ CSS is a stylesheet language used to describe how elements should be rendered
 on screen etc.
 
 XML, XSLT and CSS are supported by modern web-browsers out of the box.
+
+**Remarks:**
+
+One could do the price-filtering etc through the XSLT-file too, 
+but newcomers-id wouldn't work anymore (with just 1 XML-file at least).
+
+
 
