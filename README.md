@@ -44,7 +44,7 @@ $ firefox wishlist.xml
 Components, inputs (read top-to-bottom) and outputs (read left-to-right):
 
 ```text
-                  |                  |
+Amazon-Website    |                  |
 settings.py       | wishlist.xslt    | wishlist.css
 wishlist.xml      |                  |
 ------------------+------------------+-----------------
@@ -62,7 +62,7 @@ wishlist.xml      |                  |
 ```
 
 
-The scraper exports to `wishlist.xml`, which is generated based on:
+The scraper generates `wishlist.xml` based on:
 - the filter rules in `settings.py` (MAXPRICE, EXCLUDES, MINPRIORITY etc)
 - the old `wishlist.xml` (if exists) in order to identify changes
 
