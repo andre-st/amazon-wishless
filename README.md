@@ -31,6 +31,7 @@ $ git clone https://github.com/andre-st/amazon-wishlist
 $ cd amazon-wishlist
 $ mv settings.py-example settings.py
 $ vi settings.py        # vi or any other editor
+
 Edit your wishlists settings
 Edit your localization settings
 
