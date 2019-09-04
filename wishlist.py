@@ -14,9 +14,9 @@ from xml.dom import minidom
 class Product:
 	def __init__( self, li ):
     		self.id        = li.attrib['data-itemid']  # is not an ASIN
-		used_price_str =      li.css( '.itemUsedAndNewPrice::text'          ).get()    
+		used_price_str =      li.css( '.itemUsedAndNewPrice::text'          ).get( None )
 		rel_url        =      li.css( 'a[id^=itemName]::attr(href)'         ).get( default = '' )
-		self.imgurl    =      li.css( 'img::attr(src)'                      ).get()
+		self.imgurl    =      li.css( 'img::attr(src)'                      ).get( default = '' )
 		self.priority  = int( li.css( '#itemPriority_' + self.id + '::text' ).get( default = 0  ))
 		self.comment   =      li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
 		self.title     =      li.css( '#itemName_'     + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
@@ -33,12 +33,12 @@ class Product:
 
 # ----------------------------------------------------------------------------
 class Wishlist:
-	def __init__( self, response, filter_maxprice = settings.WISHLISTS_MAXPRICE, filter_minpriority = settings.WISHLISTS_MINPRIORITY ):
+	def __init__( self, response ):
 		self.url            = response.url
 		self.title          = response.css( '#profile-list-name::text' ).get( default = '' ).encode( 'utf-8' )
 		self.products       = []
-		self.maxprice       = filter_maxprice
-		self.minpriority    = filter_minpriority
+		self.maxprice       = settings.WISHLISTS_MAXPRICE
+		self.minpriority    = settings.WISHLISTS_MINPRIORITY
 		self.first_more_url = self.add_response( response )
 	
 	def __iter__( self ):
@@ -48,8 +48,10 @@ class Wishlist:
 		return len( self.filtered() )
 	
 	def filtered( self ):
-		return [ p for p in self.products if p.price >= 0 and p.price <= self.maxprice and p.priority >= self.minpriority ]
-		
+		return [ p for p in self.products if p.price    >= 0 and \
+		                                     p.price    <= self.maxprice and \
+		                                     p.priority >= self.minpriority ]
+	
 	def add_response( self, response ):
 		"""Returns URL for next HTML part of successively loaded wishlist (infinite scrolling)"""
 		prods = [ Product( li ) for li in response.css( 'li[data-price]' )]
@@ -61,10 +63,9 @@ class Wishlist:
 
 # ----------------------------------------------------------------------------
 class YourLists:
-	def __init__( self, response, excludes = settings.WISHLISTS_EXCLUDES ):
-		self.excludes = excludes    
-		rel_urls      = response.css( '#your-lists-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
-		self.urls     = [ 'https://' + settings.AMAZON_HOST + u for u in rel_urls ]
+	def __init__( self, response ):
+		rel_urls  = response.css( '#your-lists-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
+		self.urls = [ 'https://' + settings.AMAZON_HOST + u for u in rel_urls ]
 	
 	def __iter__( self ):
 		return iter( self.filtered() )
@@ -73,7 +74,7 @@ class YourLists:
 		return len( self.filtered() )
 	
 	def filtered( self ):
-		return [ u for u in self.urls if u not in self.excludes ]
+		return [ u for u in self.urls if u not in settings.WISHLISTS_EXCLUDES ]
 
 
 
@@ -118,8 +119,7 @@ class XmlWishlistWriter:
 			
 			wnode    = self._doc.createElement( 'wishlist' )
 			wtitnode = self._doc.createElement( 'title'    )
-			wurlnode = self._doc.createElement( 'url'      )
-			
+			wurlnode = self._doc.createElement( 'url'      )			
 			wnode.setAttribute( 'maxprice', str( wl.maxprice ))
 			wurlnode.appendChild( self._doc.createTextNode( wl.url   ))
 			wtitnode.appendChild( self._doc.createTextNode( wl.title ))
@@ -131,7 +131,6 @@ class XmlWishlistWriter:
 				pnode.setAttribute( 'id',       product.id )
 				pnode.setAttribute( 'price',    str( product.price ))
 				pnode.setAttribute( 'priority', str( product.priority ))
-				
 				if not self.isfirst and product.id not in self._old_ids:
 					pnode.setAttribute( 'isnew', 'yes' )
 				
