@@ -42,9 +42,9 @@ $ firefox wishlist.xml
 ## Customization
 
 ```text
-settings.py       | wishlist.xslt    | wishlist.css
-wishtlist.xml     |                  |
                   |                  |
+settings.py       | wishlist.xslt    | wishlist.css
+wishlist.xml      |                  |
 ------------------+------------------+-----------------
 ::::::::::::::::::|                  |
 ::SCRAPER:::::::::| wishlist.xml*    |
