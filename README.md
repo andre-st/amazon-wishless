@@ -48,8 +48,8 @@ Components (uppercase), their inputs (cells above) and outputs (cells to the rig
 
 ```text
   settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
-  (filter-rules)    |  (headings,        |  (colors,fonts,    |                    |
-                    |   sections)        |   margins)         |                    |
+  (filter-rules)    |  (headings,sort    |  (colors,fonts,    |                    |
+                    |   order,sections)  |   margins)         |                    |
   wishlist.xml      |                    |                    |                    |
   (to id changes)   |                    |                    |                    |
                     |                    |                    |                    |
