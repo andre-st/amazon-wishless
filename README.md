@@ -49,7 +49,7 @@ Components (uppercase), their inputs (cells above) and outputs (cells to the rig
   (filter-rules)    |  (headings,        |  (colors,fonts)    |                    |
                     |   sections)        |                    |                    |
   wishlist.xml      |                    |                    |                    |
-  (diff changes)    |                    |                    |                    |
+  (to id changes)   |                    |                    |                    |
                     |                    |                    |                    |
   amazon-website    |                    |                    |                    |
                     |                    |                    |                    |
