@@ -19,7 +19,9 @@
 
 			<section class="latest">
 				<h2>Latest</h2>
-				<xsl:apply-templates select="wishlist/product[@isnew]" />
+				<xsl:apply-templates select="wishlist/product[@isnew]">
+					<xsl:sort select="@priority" data-type="number" order="descending" />
+				</xsl:apply-templates>
 			</section>
 			
 			
