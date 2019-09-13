@@ -13,7 +13,7 @@ import locale
 ## Edit your wishlists settings:
 ##
 WISHLISTS_MAXPRICES = {  # Only output items that cost no more than MAXPRICE
-	# Priority [-2,2] with 2 highest :  Max Price [-inf,inf] with x < 0 dropping items
+	# Product-priority [-2,2] with 2 highest :  Max Price [-inf,inf] with x < 0 dropping items
 	-2  :  -1,
 	-1  :  -1,
 	 0  :  10.0,
