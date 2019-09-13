@@ -80,6 +80,21 @@ wl-title
 	margin: 0.75em 0 0 0;
 }
 
+wl-by
+{
+	margin: 0.3em 0 0 0;
+	display: block;
+	font-style: italic;
+	opacity: 0.5;
+	line-height: 1.2;
+}
+
+wl-by:before
+{
+	content: '\2014\0020';
+	content: 'by ';
+}
+
 wl-price
 {
 	display: block;

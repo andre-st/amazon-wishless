@@ -65,6 +65,9 @@
 		<wl-info>
 			<wl-price><xsl:value-of select="price" /></wl-price>
 			<wl-title><xsl:value-of select="title" /></wl-title>
+			<xsl:if test="by">
+				<wl-by><xsl:value-of select="by" /></wl-by>
+			</xsl:if>
 		</wl-info>
 	</wl-product>
 </xsl:template>

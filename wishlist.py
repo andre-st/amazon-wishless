@@ -20,6 +20,7 @@ class Product:
 		self.priority  = int( li.css( '#itemPriority_' + self.id + '::text' ).get( default = 0  ))
 		self.comment   =      li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
 		self.title     =      li.css( '#itemName_'     + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
+		self.by        =      li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
 		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
 		self.price     = float( li.attrib['data-price'] )  # "-Infinity" or "123.5" (always US-locale)
 		
@@ -27,6 +28,12 @@ class Product:
 			used_price_mat = re.match( '(?P<amount>[0-9,.\']+)', used_price_str )
 			self.price     = locale.atof( used_price_mat.group( 'amount' ))   # Comma vs dot
 		
+		if self.by:
+			# "by John Doe (Paperback)", "von: John Doe, Marie Jane", "in der Hauptrolle Maria C."
+			self.by = re.sub( '^von: ',  '', self.by )
+			self.by = re.sub( '^by ',    '', self.by )
+			self.by = re.sub( '\(.*?\)', '', self.by )
+			
 		self.price_l10n = locale.currency( self.price )
 
 
@@ -139,14 +146,17 @@ class XmlWishlistWriter:
 				titnode = self._doc.createElement( 'title'    )
 				prcnode = self._doc.createElement( 'price'    )
 				cmtnode = self._doc.createElement( 'comment'  )
+				bynode  = self._doc.createElement( 'by'       )
 				urlnode.appendChild( self._doc.createTextNode( product.url        ))
 				picnode.appendChild( self._doc.createTextNode( product.imgurl     ))
 				titnode.appendChild( self._doc.createTextNode( product.title      ))
+				bynode .appendChild( self._doc.createTextNode( product.by         ))
 				prcnode.appendChild( self._doc.createTextNode( product.price_l10n ))
 				cmtnode.appendChild( self._doc.createTextNode( product.comment    ))
 				pnode  .appendChild( urlnode )
 				pnode  .appendChild( picnode )
 				pnode  .appendChild( titnode )
+				pnode  .appendChild( bynode  )
 				pnode  .appendChild( prcnode )
 				pnode  .appendChild( cmtnode )
 				wnode  .appendChild( pnode   )
