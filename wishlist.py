@@ -44,8 +44,7 @@ class Wishlist:
 		self.url            = response.url
 		self.title          = response.css( '#profile-list-name::text' ).get( default = '' ).encode( 'utf-8' )
 		self.products       = []
-		self.maxprice       = settings.WISHLISTS_MAXPRICE
-		self.minpriority    = settings.WISHLISTS_MINPRIORITY
+		self.maxprice_for   = settings.WISHLISTS_MAXPRICES
 		self.first_more_url = self.add_response( response )
 	
 	def __iter__( self ):
@@ -55,9 +54,7 @@ class Wishlist:
 		return len( self.filtered() )
 	
 	def filtered( self ):
-		return [ p for p in self.products if p.price    >= 0 and \
-		                                     p.price    <= self.maxprice and \
-		                                     p.priority >= self.minpriority ]
+		return [ p for p in self.products if p.price >= 0 and p.price <= self.maxprice_for[p.priority] ]
 	
 	def add_response( self, response ):
 		"""Returns URL for next HTML part of successively loaded wishlist (infinite scrolling)"""
@@ -127,7 +124,6 @@ class XmlWishlistWriter:
 			wnode    = self._doc.createElement( 'wishlist' )
 			wtitnode = self._doc.createElement( 'title'    )
 			wurlnode = self._doc.createElement( 'url'      )			
-			wnode.setAttribute( 'maxprice', str( wl.maxprice ))
 			wurlnode.appendChild( self._doc.createTextNode( wl.url   ))
 			wtitnode.appendChild( self._doc.createTextNode( wl.title ))
 			wnode   .appendChild( wurlnode )

@@ -83,9 +83,7 @@
 				</xsl:attribute>
 				<xsl:value-of select="title" />
 			</a>
-			&#8804; 
-			<xsl:value-of select="@maxprice" />
-			EUR</h2>
+		</h2>
 		
 		<xsl:apply-templates select="product">
 			<xsl:sort select="@priority" data-type="number" order="descending" />
