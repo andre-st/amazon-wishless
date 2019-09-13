@@ -7,6 +7,7 @@
 #
 
 import locale
+from urlparse import urlparse
 
 
 ##
@@ -31,9 +32,9 @@ WISHLISTS_XMLPATH = './wishlist.xml'
 ##
 ## Edit your localization settings:
 ##
-AMAZON_HOST = 'www.amazon.de'                            # www.amazon.de, www.amazon.com, www.amazon.co.uk, ...
-DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # de, en, ...
-locale.setlocale( locale.LC_ALL, 'de_DE' )               # de_DE, en_US, en_GB, ...
+DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # 'de', 'en', ...
+locale.setlocale( locale.LC_ALL, 'de_DE' )               # 'de_DE', 'en_US', 'en_GB', ...
+AMAZON_HOST = urlparse( WISHLISTS_URL_ANY ).netloc       # Don't change.
 
 
 ##
