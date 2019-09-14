@@ -56,7 +56,8 @@ Components (uppercase), their inputs (cells upwards) and outputs (cells to the r
   (to id changes)   |                    |                    |                    |
                     |                    |                    |                    |
   amazon-website    |                    |                    |                    |
-                    |                    |                    |                    |
+  (lists,           |                    |                    |                    |
+   priorities)      |                    |                    |                    |
 --------------------+--------------------+--------------------+--------------------|
 ::::::::::::::::::::|  wishlist.xml*     |                    |                    |
 ::SCRAPER:::::::::::|  (semistructured   |                    |                    |
