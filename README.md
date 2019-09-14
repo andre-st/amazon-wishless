@@ -1,4 +1,4 @@
-# Amazon-Wishlists Scraper, v1.0
+# Amazon-Wishlists Scraper, v1.1
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
