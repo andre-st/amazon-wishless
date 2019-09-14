@@ -48,7 +48,7 @@ class Wishlist:
 		self.url            = response.url
 		self.title          = response.css( '#profile-list-name::text' ).get( default = '' )
 		self.products       = []
-		self.maxprice_for   = settings.WISHLISTS_MAXPRICES
+		self.max_price_for  = settings.WISHLISTS_MAXPRICES
 		self.first_more_url = self.add_response( response )
 	
 	def __iter__( self ):
@@ -58,7 +58,7 @@ class Wishlist:
 		return len( self.filtered() )
 	
 	def filtered( self ):
-		return [ p for p in self.products if p.price >= 0 and p.price <= self.maxprice_for[p.priority] ]
+		return [ p for p in self.products if p.price >= 0 and p.price <= self.max_price_for[p.priority] ]
 	
 	def add_response( self, response ):
 		"""Returns URL for next HTML part of successively loaded wishlist (infinite scrolling)"""
@@ -102,12 +102,10 @@ class XmlWishlistReader:
 class XmlWishlistWriter:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
 		self.filename = filename
-		self.isfirst  = True
-		self._old_ids = []
+		self._old     = None
 		if os.path.exists( filename ):
 			try:
-				self._old_ids = XmlWishlistReader( filename ).get_product_ids()
-				self.isfirst = False
+				self._old = XmlWishlistReader( filename )
 			except:
 				print( "[WARN] Old {} is corrupt and will be recreated".format( filename ))
 	
