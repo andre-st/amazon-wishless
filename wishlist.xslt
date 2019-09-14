@@ -9,14 +9,16 @@
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			
-			<title></title>
+			<title>Amazon-Lists Used &amp; New</title>
 			
 			<link rel="stylesheet" href="wishlist.css" />
 			
 		</head>
 		<body>
 			<h1>Amazon-Lists Used &amp; New</h1>
-
+			
+			<a class="credits" href="https://github.com/andre-st/amazon-wishlist" target="_blank">GitHub</a>
+			
 			<section class="latest">
 				<h2>Latest</h2>
 				<xsl:apply-templates select="wishlist/product[@isnew]">
