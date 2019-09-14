@@ -22,6 +22,7 @@ WISHLISTS_MAXPRICES = {  # Specifies which products will be added to the export 
 	 1  :  15.0,
 	 2  :  15.0
 }
+SIGNIFICANT_PRICE_CHANGE = 1.00  # Ignores changes at the Cent level (EUR 0.50)
 WISHLISTS_URL_ANY  = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
 WISHLISTS_EXCLUDES = [  # Absolute URLs
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/ref=cm_go_nav_hz',   # My list 2

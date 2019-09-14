@@ -94,6 +94,7 @@ class XmlWishlistReader:
 	def was_more_expensive( self, product_id, new_price ):
 		"""This means not only a formally higher price (eg in the cent range) but noticeably more expensive"""
 		old_price = self._xml.xpath( "/amazon/wishlist/product[@id='" + product_id + "']/@price" );
+		return not old_price or float( old_price[0] ) - new_price >= settings.SIGNIFICANT_PRICE_CHANGE
 
 
 
