@@ -50,14 +50,13 @@ Components (uppercase), their inputs (cells upwards) and outputs (cells to the r
 ```text
   settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
   (filter-rules,    |  (headings,sort    |  (colors,fonts,    |                    |
-   filenames)       |   order,sections)  |   margins)         |                    |
-                    |                    |                    |                    |
+   filenames)       |   order,sections   |   margins)         |                    |
+                    |   in xml-viewer)   |                    |                    |
   wishlist.xml      |                    |                    |                    |
   (to id changes)   |                    |                    |                    |
                     |                    |                    |                    |
   amazon-website    |                    |                    |                    |
-  (lists,           |                    |                    |                    |
-   priorities)      |                    |                    |                    |
+  (lists,priority)  |                    |                    |                    |
 --------------------+--------------------+--------------------+--------------------|
 ::::::::::::::::::::|  wishlist.xml*     |                    |                    |
 ::SCRAPER:::::::::::|  (semistructured   |                    |                    |
@@ -65,18 +64,18 @@ Components (uppercase), their inputs (cells upwards) and outputs (cells to the r
 ::::::::::::::::::::|                    |                    |                    |
 --------------------+--------------------+--------------------+--------------------|
                     |::::::::::::::::::::|                    |                    |
-                    |::BROWSER-INTERN::::|  generated html    |                    |
+                    |::BROWSER-INTERN::::|  generated xhtml   |                    |
                     |::XSLT-PROCESSOR::::|  (in-memory)       |                    |
                     |::::::::::::::::::::|                    |                    |
 --------------------+--------------------+--------------------+--------------------|
                     |                    |::::::::::::::::::::|                    |
-                    |                    |::BROWSER:::::::::::|  rendered webpage  |
-                    |                    |::::::::::::::::::::|                    |
+                    |                    |::BROWSER:::::::::::|  pretty xml-viewer |
+                    |                    |::::::::::::::::::::|  (see screenshot)  |
 ```
 
 
 XSLT is a declarative, Turing-complete language for transforming 
-XML documents into other XML documents (HTML in this case). 
+XML documents into other XML documents (XHTML in this case). 
 XSLT runs queries against the XML-file and feeds the result into templates
 with placeholders. The web-browser automatically loads and processes the XSLT and CSS files
 for `wishlist.xml`. XML, XSLT and CSS are supported by modern web-browsers out of the box.
