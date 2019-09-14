@@ -21,7 +21,7 @@ with the items filtered according to price, priority etc.
 - lxml (XML library)
 - pip (package installer for Python) to install dependencies:
 	`$ pip install scrapy lxml`
-	(pip is usally available in your package manager)
+	(pip is usually available in your package manager)
 
 
 
