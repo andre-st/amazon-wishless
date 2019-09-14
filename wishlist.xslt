@@ -23,6 +23,7 @@
 				<h2>Latest</h2>
 				<xsl:apply-templates select="wishlist/product[@isnew]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
+					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
 			</section>
 			
@@ -31,6 +32,7 @@
 				<h2>Higher Priority</h2>
 				<xsl:apply-templates select="wishlist/product[@priority &gt; 0]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
+					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
 			</section>
 
@@ -89,6 +91,7 @@
 		
 		<xsl:apply-templates select="product">
 			<xsl:sort select="@priority" data-type="number" order="descending" />
+			<xsl:sort select="@price"    data-type="number" order="ascending" />
 		</xsl:apply-templates>
 		
 	</section>
