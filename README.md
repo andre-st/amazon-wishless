@@ -49,8 +49,9 @@ Components (uppercase), their inputs (cells upwards) and outputs (cells to the r
 
 ```text
   settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
-  (filter-rules)    |  (headings,sort    |  (colors,fonts,    |                    |
-                    |   order,sections)  |   margins)         |                    |
+  (filter-rules,    |  (headings,sort    |  (colors,fonts,    |                    |
+   filenames)       |   order,sections)  |   margins)         |                    |
+                    |                    |                    |                    |
   wishlist.xml      |                    |                    |                    |
   (to id changes)   |                    |                    |                    |
                     |                    |                    |                    |
