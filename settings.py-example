@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 # vim: set noai noexpandtab sts=0:
 
-#
-# TODO: How to Amazon-Wishlist-Link
-#
-
 import locale
 from urlparse import urlparse
 
@@ -23,12 +19,13 @@ WISHLISTS_MAXPRICES = {  # Specifies which products will be added to the export 
 	 2  :  15.0
 }
 SIGNIFICANT_PRICE_CHANGE = 1.00  # Ignores changes at the Cent level (EUR 0.50)
-WISHLISTS_URL_ANY  = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
-WISHLISTS_EXCLUDES = [  # Absolute URLs
+WISHLISTS_URL_ANY        = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
+WISHLISTS_EXCLUDES       = [  # Absolute URLs
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/ref=cm_go_nav_hz',   # My list 2
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/ref=cm_go_nav_hz'    # My list 3
 ]
-WISHLISTS_XMLPATH = './wishlist.xml'
+
+WISHLISTS_XMLPATH = './wishlist.xml'  # Change here, you have to rename wishlist.xslt accordingly
 
 
 ##
@@ -40,7 +37,7 @@ AMAZON_HOST = urlparse( WISHLISTS_URL_ANY ).netloc       # Don't change.
 
 
 ##
-## Scrapy Settings:
+## You can ignore these Scrapy settings:
 ##
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36'
 DOWNLOADER_MIDDLEWARES = {
