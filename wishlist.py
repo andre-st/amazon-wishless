@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 
+# Standard:
 import locale
 import scrapy
 import os
 import re
-import settings
-from scrapy.http.request import Request
-from xml.dom import minidom
 
+# Ours:
+import settings
+
+# Third party:
+from scrapy.http.request import Request
+from lxml import etree as XML
 
 
 # ----------------------------------------------------------------------------
@@ -18,9 +22,9 @@ class Product:
 		rel_url        =      li.css( 'a[id^=itemName]::attr(href)'         ).get( default = '' )
 		self.imgurl    =      li.css( 'img::attr(src)'                      ).get( default = '' )
 		self.priority  = int( li.css( '#itemPriority_' + self.id + '::text' ).get( default = 0  ))
-		self.comment   =      li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
-		self.title     =      li.css( '#itemName_'     + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
-		self.by        =      li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' ).encode( 'utf-8' )
+		self.comment   =      li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' )
+		self.title     =      li.css( '#itemName_'     + self.id + '::text' ).get( default = '' )
+		self.by        =      li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
 		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
 		self.price     = float( li.attrib['data-price'] )  # "-Infinity" or "123.5" (always US-locale)
 		
@@ -42,7 +46,7 @@ class Product:
 class Wishlist:
 	def __init__( self, response ):
 		self.url            = response.url
-		self.title          = response.css( '#profile-list-name::text' ).get( default = '' ).encode( 'utf-8' )
+		self.title          = response.css( '#profile-list-name::text' ).get( default = '' )
 		self.products       = []
 		self.maxprice_for   = settings.WISHLISTS_MAXPRICES
 		self.first_more_url = self.add_response( response )
@@ -85,10 +89,11 @@ class YourLists:
 # ----------------------------------------------------------------------------
 class XmlWishlistReader:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
-		self._doc = minidom.parse( filename ) 
+		self._xml = XML.parse( filename ) 
 	
-	def get_product_ids( self ):
-		return [ x.attributes['id'].value for x in self._doc.getElementsByTagName( 'product' )]
+	def was_more_expensive( self, product_id, new_price ):
+		"""This means not only a formally higher price (eg in the cent range) but noticeably more expensive"""
+		old_price = self._xml.xpath( "/amazon/wishlist/product[@id='" + product_id + "']/@price" );
 
 
 
@@ -106,58 +111,37 @@ class XmlWishlistWriter:
 				print( "[WARN] Old {} is corrupt and will be recreated".format( filename ))
 	
 	def __enter__( self ):
-		self._doc = minidom.Document()
-		self._doc.appendChild( self._doc.createProcessingInstruction( 'xml-stylesheet', 'type="text/xsl" href="wishlist.xslt"' ))
-		self._doc.appendChild( self._doc.createElement( 'amazon' ))
+		self._xml = XML.ElementTree( XML.Element( 'amazon' ))
+		base, ext = os.path.splitext( self.filename )
+		xsl_path  = base + '.xslt'  # Easens customization
+		pi_xsl    = XML.ProcessingInstruction( 'xml-stylesheet', 'type="text/xsl" href="' + xsl_path + '"' )
+		self._xml.getroot().addprevious( pi_xsl )
 		return self
 	
 	def __exit__( self, type, value, traceback ):
-		f = open( self.filename, 'w' )
-		self._doc.writexml( f, indent = "\t", addindent = "\t", newl = "\n" )
-		self._doc.unlink()
-		f.close()
+		self._xml.write( self.filename, xml_declaration = True, pretty_print = True )
 	
 	def write_wl( self, wishlists ):
 		for wl in wishlists:
-			if len( wl ) == 0: continue
-			
-			wnode    = self._doc.createElement( 'wishlist' )
-			wtitnode = self._doc.createElement( 'title'    )
-			wurlnode = self._doc.createElement( 'url'      )			
-			wurlnode.appendChild( self._doc.createTextNode( wl.url   ))
-			wtitnode.appendChild( self._doc.createTextNode( wl.title ))
-			wnode   .appendChild( wurlnode )
-			wnode   .appendChild( wtitnode )
-			
-			for product in wl:
-				pnode = self._doc.createElement( 'product' )
-				pnode.setAttribute( 'id',       product.id )
-				pnode.setAttribute( 'price',    str( product.price ))
-				pnode.setAttribute( 'priority', str( product.priority ))
-				if not self.isfirst and product.id not in self._old_ids:
-					pnode.setAttribute( 'isnew', 'yes' )
-				
-				urlnode = self._doc.createElement( 'url'      )
-				picnode = self._doc.createElement( 'picture'  )
-				titnode = self._doc.createElement( 'title'    )
-				prcnode = self._doc.createElement( 'price'    )
-				cmtnode = self._doc.createElement( 'comment'  )
-				bynode  = self._doc.createElement( 'by'       )
-				urlnode.appendChild( self._doc.createTextNode( product.url        ))
-				picnode.appendChild( self._doc.createTextNode( product.imgurl     ))
-				titnode.appendChild( self._doc.createTextNode( product.title      ))
-				bynode .appendChild( self._doc.createTextNode( product.by         ))
-				prcnode.appendChild( self._doc.createTextNode( product.price_l10n ))
-				cmtnode.appendChild( self._doc.createTextNode( product.comment    ))
-				pnode  .appendChild( urlnode )
-				pnode  .appendChild( picnode )
-				pnode  .appendChild( titnode )
-				pnode  .appendChild( bynode  )
-				pnode  .appendChild( prcnode )
-				pnode  .appendChild( cmtnode )
-				wnode  .appendChild( pnode   )
-			
-			self._doc.documentElement.appendChild( wnode )
+			if len( wl ) > 0:
+				wl_elem = XML.SubElement( self._xml.getroot(), 'wishlist' )
+				XML.SubElement( wl_elem, 'title' ).text = wl.title
+				XML.SubElement( wl_elem, 'url'   ).text = wl.url
+				for product in wl:
+					p_attr = {
+						'id'       : product.id,
+						'price'    : str( product.price    ),  # US-format and w/o currency for comparison etc
+						'priority' : str( product.priority )
+					}
+					p_elem = XML.SubElement( wl_elem, 'product', p_attr )
+					if self._old and self._old.was_more_expensive( product.id, product.price ):
+						p_elem.set( 'isnew', 'yes' )
+					XML.SubElement( p_elem, 'url'     ).text = product.url
+					XML.SubElement( p_elem, 'picture' ).text = product.imgurl
+					XML.SubElement( p_elem, 'title'   ).text = product.title
+					XML.SubElement( p_elem, 'by'      ).text = product.by
+					XML.SubElement( p_elem, 'comment' ).text = product.comment
+					XML.SubElement( p_elem, 'price'   ).text = product.price_l10n  # Localized with currency
 
 
 

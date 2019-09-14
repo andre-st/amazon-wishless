@@ -18,8 +18,9 @@ with the items filtered according to price, priority etc.
 - GNU/Linux operating system (other platforms not tested)
 - Python 2.7.16
 - Scrapy 1.7.3 (web crawling framework)
-- pip (package installer for Python) to install Scrapy:
-	`$ pip install scrapy`
+- lxml (XML library)
+- pip (package installer for Python) to install dependencies:
+	`$ pip install scrapy lxml`
 	(pip is usally available in your package manager)
 
 
