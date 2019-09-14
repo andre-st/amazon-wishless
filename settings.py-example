@@ -2,8 +2,7 @@
 # vim: set noai noexpandtab sts=0:
 
 #
-#
-# Howto: Amazon-Wishlist-Link
+# TODO: How to Amazon-Wishlist-Link
 #
 
 import locale
@@ -13,8 +12,10 @@ from urlparse import urlparse
 ##
 ## Edit your wishlists settings:
 ##
-WISHLISTS_MAXPRICES = {  # Only output items that cost no more than MAXPRICE
-	# Product-priority [-2,2] with 2 highest :  Max Price [-inf,inf] with x < 0 dropping items
+WISHLISTS_MAXPRICES = {  # Specifies which products will be added to the export file
+	# Product-priority (in range [-2,2] with 2 highest)  :  Maximum price [-inf,inf] 
+	# Specifying a price between 0 and x will skip all products of the given priority that cost more than x
+	# Specifying a price below   0       will skip all products of the given priority
 	-2  :  -1,
 	-1  :  -1,
 	 0  :  10.0,
@@ -22,7 +23,7 @@ WISHLISTS_MAXPRICES = {  # Only output items that cost no more than MAXPRICE
 	 2  :  15.0
 }
 WISHLISTS_URL_ANY  = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
-WISHLISTS_EXCLUDES = [ # Absolute URLs
+WISHLISTS_EXCLUDES = [  # Absolute URLs
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/ref=cm_go_nav_hz',   # My list 2
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/ref=cm_go_nav_hz'    # My list 3
 ]
@@ -32,8 +33,8 @@ WISHLISTS_XMLPATH = './wishlist.xml'
 ##
 ## Edit your localization settings:
 ##
-DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # 'de', 'en', ...
-locale.setlocale( locale.LC_ALL, 'de_DE' )               # 'de_DE', 'en_US', 'en_GB', ...
+DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # RFC 5646 language tag: 'de', 'en', ...
+locale.setlocale( locale.LC_ALL, 'de_DE' )               # Locale value: 'de_DE', 'en_US', 'en_GB', ...
 AMAZON_HOST = urlparse( WISHLISTS_URL_ANY ).netloc       # Don't change.
 
 
