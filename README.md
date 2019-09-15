@@ -8,7 +8,7 @@ This scraper exports _all_ lists to a XML-file,
 with the items filtered and re-ordered according to price, priority etc.
 
 
-## XML viewed in web-browser
+## XML viewed in the web-browser
 
 ![Screenshot](README-screenshot.png?raw=true "Screenshot")
 
