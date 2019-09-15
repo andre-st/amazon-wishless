@@ -8,7 +8,7 @@ This scraper exports _all_ lists to a XML-file,
 with the items filtered according to price, priority etc.
 
 
-## Sample output
+## Sample XML view in your web-browser
 
 ![Screenshot](README-screenshot.png?raw=true "Screenshot")
 
@@ -79,12 +79,6 @@ XML documents into other XML documents (XHTML in this case).
 XSLT runs queries against the XML-file and feeds the result into templates
 with placeholders. The web-browser automatically loads and processes the XSLT and CSS files
 for `wishlist.xml`. XML, XSLT and CSS are supported by modern web-browsers out of the box.
-
-**Remarks:**
-
-One could do the filtering through the XSLT-file too, 
-but tracking changes wouldn't work properly anymore (with just 1 XML-file at least).
-
 
 
 ## Feedback
