@@ -80,6 +80,8 @@ XSLT runs queries against the XML-file and feeds the result into templates
 with placeholders. The web-browser automatically loads and processes the XSLT and CSS files
 for `wishlist.xml`. XML, XSLT and CSS are supported by modern web-browsers out of the box.
 
+For your own XSLT-file just change the `WISHLISTS_XMLPATH` value in `settings.py`.
+
 
 ## Feedback
 
