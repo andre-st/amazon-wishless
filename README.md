@@ -5,10 +5,10 @@
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current (2nd hand) prices is time consuming. 
 This scraper exports _all_ lists to a XML-file, 
-with the items filtered according to price, priority etc.
+with the items filtered and re-ordered according to price, priority etc.
 
 
-## Sample XML view in your web-browser
+## XML viewed in web-browser
 
 ![Screenshot](README-screenshot.png?raw=true "Screenshot")
 
