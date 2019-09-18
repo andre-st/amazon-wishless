@@ -1,6 +1,17 @@
 <?xml version="1.0"?>
-
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+
+<!-- ======================= EDIT YOUR FILTER SETTINGS =================== -->
+
+<!-- Specify what you consider a significant price change.
+     Products with a significantly reduced price are listed separately.
+     Default: 2.00 -->
+<xsl:variable name="SIGNIFICANT_PRICE_CUT" select="2.001" />
+
+
+<!-- ===================================================================== -->
+
 
 
 <xsl:template match="/amazon">
@@ -21,7 +32,7 @@
 			
 			<section class="latest">
 				<h2>Latest</h2>
-				<xsl:apply-templates select="wishlist/product[@isnew]">
+				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= @buyprice and @pricecut &gt;= $SIGNIFICANT_PRICE_CUT]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
@@ -30,7 +41,7 @@
 			
 			<section class="higher">
 				<h2>Higher Priority</h2>
-				<xsl:apply-templates select="wishlist/product[@priority &gt; 0]">
+				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= @buyprice and @priority &gt; 0]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
@@ -89,7 +100,7 @@
 			</a>
 		</h2>
 		
-		<xsl:apply-templates select="product">
+		<xsl:apply-templates select="product[@price &gt;= 0 and @price &lt;= @buyprice]">
 			<xsl:sort select="@priority" data-type="number" order="descending" />
 			<xsl:sort select="@price"    data-type="number" order="ascending" />
 		</xsl:apply-templates>

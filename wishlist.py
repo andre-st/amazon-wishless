@@ -27,6 +27,13 @@ class Product:
 		self.by        =      li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
 		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
 		self.price     = float( li.attrib['data-price'] )  # "-Infinity" or "123.5" (always US-locale)
+		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Default
+		
+		# Override default buy-price with specified one:
+		# "blabla {BUY $50.23} blabla". "blabbla { kaufe ab 21,45 EUR}", "{ab 77} yadda" 
+		buyprice_mat = re.match( '{.*?(?P<amount>[0-9,.\']+).*?}', self.comment )
+		if buyprice_mat:
+			self.buyprice = locale.atof( buyprice_mat.group( 'amount' ))  # Comma vs dot
 		
 		if used_price_str is not None:
 			used_price_mat = re.match( '(?P<amount>[0-9,.\']+)', used_price_str )
@@ -37,9 +44,9 @@ class Product:
 			self.by = re.sub( '^von: ',  '', self.by )
 			self.by = re.sub( '^by ',    '', self.by )
 			self.by = re.sub( '\(.*?\)', '', self.by )
-			
+		
 		self.price_l10n = locale.currency( self.price )
-
+	
 
 
 # ----------------------------------------------------------------------------
@@ -48,18 +55,14 @@ class Wishlist:
 		self.url            = response.url
 		self.title          = response.css( '#profile-list-name::text' ).get( default = '' )
 		self.products       = []
-		self.max_price_for  = settings.WISHLISTS_MAXPRICES
 		self.first_more_url = self.add_response( response )
 	
 	def __iter__( self ):
-		return iter( self.filtered() )
+		return iter( self.products )
 	
 	def __len__( self ):
-		return len( self.filtered() )
-	
-	def filtered( self ):
-		return [ p for p in self.products if p.price >= 0 and p.price <= self.max_price_for[p.priority] ]
-	
+		return len( self.products )
+		
 	def add_response( self, response ):
 		"""Returns URL for next HTML part of successively loaded wishlist (infinite scrolling)"""
 		prods = [ Product( li ) for li in response.css( 'li[data-price]' )]
@@ -90,12 +93,11 @@ class YourLists:
 class XmlWishlistReader:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
 		self._xml = XML.parse( filename ) 
-	
-	def was_more_expensive( self, product_id, new_price ):
-		"""Not only a formally higher price (eg in the cent range) but noticeably more expensive"""
-		old_price = self._xml.xpath( "/amazon/wishlist/product[@id='" + product_id + "']/@price" );
-		price_cut = float(old_price[0]) - new_price if old_price else None
-		return not old_price or price_cut >= settings.SIGNIFICANT_PRICE_CHANGE
+		
+	def get_price_cut( self, product_id, new_price ):
+		old_price = self._xml.xpath( "/amazon/wishlist/product[@id='" + product_id + "']/@price" )
+		price_cut = float(old_price[0]) - new_price if old_price else 0
+		return price_cut if price_cut >= 0 else 0
 
 
 
@@ -113,7 +115,7 @@ class XmlWishlistWriter:
 	def __enter__( self ):
 		self._xml = XML.ElementTree( XML.Element( 'amazon' ))
 		base, ext = os.path.splitext( self.filename )
-		xsl_path  = base + '.xslt'  # Easens customization
+		xsl_path  = base + '.xslt'  # Dynamic name eases customization
 		pi_xsl    = XML.ProcessingInstruction( 'xml-stylesheet', 'type="text/xsl" href="' + xsl_path + '"' )
 		self._xml.getroot().addprevious( pi_xsl )
 		return self
@@ -131,17 +133,17 @@ class XmlWishlistWriter:
 					p_attr = {
 						'id'       : product.id,
 						'price'    : str( product.price    ),  # US-format and w/o currency for comparison etc
-						'priority' : str( product.priority )
+						'priority' : str( product.priority ),
+						'buyprice' : str( product.buyprice ),
+						'pricecut' : str( self._old and self._old.get_price_cut( product.id, product.price ))
 					}
 					p_elem = XML.SubElement( wl_elem, 'product', p_attr )
-					if self._old and self._old.was_more_expensive( product.id, product.price ):
-						p_elem.set( 'isnew', 'yes' )
 					XML.SubElement( p_elem, 'url'     ).text = product.url
 					XML.SubElement( p_elem, 'picture' ).text = product.imgurl
 					XML.SubElement( p_elem, 'title'   ).text = product.title
 					XML.SubElement( p_elem, 'by'      ).text = product.by
 					XML.SubElement( p_elem, 'comment' ).text = product.comment
-					XML.SubElement( p_elem, 'price'   ).text = product.price_l10n  # Localized with currency
+					XML.SubElement( p_elem, 'price'   ).text = product.price_l10n  # Localized format with currency
 
 
 

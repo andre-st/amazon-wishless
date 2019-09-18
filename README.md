@@ -1,4 +1,4 @@
-# Amazon-Wishlists Scraper, v1.1
+# Amazon-Wishlists Scraper, v1.2
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
@@ -24,7 +24,6 @@ with the items filtered and re-ordered according to price, priority etc.
 	(pip is usually available in your package manager)
 
 
-
 ## Getting started
 
 GNU/Linux terminal:
@@ -43,16 +42,24 @@ $ firefox wishlist.xml
 ```
 
 
+## Observations and limitations
+
+- requires _public_ wishlists
+- the second hand price shown by Amazon may be low, but the final price is
+  sometimes realized on frivolously high shipping prices. 
+  Shipping prices are currently not taken into account
+
+
 ## Customization
 
 Components (uppercase), their inputs (cells upwards) and outputs (cells to the right):
 
 ```text
   settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
-  (filter-rules,    |  (headings,sort    |  (colors,fonts,    |                    |
-   filenames)       |   order,sections   |   margins)         |                    |
-                    |   in xml-viewer)   |                    |                    |
-  wishlist.xml      |                    |                    |                    |
+  (filter-rules I,  |  (filter-rules II, |  (colors,fonts,    |                    |
+   filenames)       |   headings,sort    |   margins)         |                    |
+                    |   order,sections   |                    |                    |
+  wishlist.xml      |   in xml-viewer)   |                    |                    |
   (to id changes)   |                    |                    |                    |
                     |                    |                    |                    |
   amazon-website    |                    |                    |                    |
@@ -88,7 +95,6 @@ For your own XSLT-file just change the `WISHLISTS_XMLPATH` value in `settings.py
 If you like this project, you can "star" it on GitHub.
 Report bugs or suggestions [via GitHub](https://github.com/andre-st/amazon-wishlist/issues)
 or see the [AUTHORS.md](AUTHORS.md) file.
-
 
 
 ## See also

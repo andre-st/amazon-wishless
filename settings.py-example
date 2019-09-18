@@ -5,34 +5,63 @@ import locale
 from urlparse import urlparse
 
 
+# Note: There are settings in `wishlist.xslt` too!
+
+
 ##
 ## Edit your wishlists settings:
 ##
-WISHLISTS_MAXPRICES = {  # Specifies which products will be added to the export file
-	# Product-priority (in range [-2,2] with 2 highest)  :  Maximum price [-inf,inf] 
-	# Specifying a price between 0 and x will skip all products of the given priority that cost more than x
-	# Specifying a price below   0       will skip all products of the given priority
-	-2  :  -1,
-	-1  :  -1,
-	 0  :  10.0,
-	 1  :  15.0,
-	 2  :  15.0
+
+# Specify which products will be considered on-budget.
+#   These are just defaults differentiated by product priority.
+#
+#   Note: You can override this for individual products by having something 
+#   like "{if $80.50}" or "{ab 5,10 Euro}" or "{12}" or "{yAdda 55.42 yaDdA}"
+#   somewhere in a product comment on your Amazon wishlist,
+#
+#   In comments, use a price number format according to your locale.
+#   Specifying a price below 0 means never on budget (exclusion).
+#
+WISHLISTS_BUYPRICES = {
+	# Pty : Price     # Priority name on Amazon:
+	-2    :   -1,     #   "Don't buy this for me"
+	-1    :   -1,     #   ""
+	 0    :   10.0,   #   "Normal"
+	 1    :   15.0,   #   ""
+	 2    :   15.0    #   "Must have"
 }
-SIGNIFICANT_PRICE_CHANGE = 1.00  # Ignores changes at the Cent level (EUR 0.50)
-WISHLISTS_URL_ANY        = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
-WISHLISTS_EXCLUDES       = [  # Absolute URLs
-	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/ref=cm_go_nav_hz',   # My list 2
-	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/ref=cm_go_nav_hz'    # My list 3
+
+# Specify any of your wishlist URLs.
+#   The program will find all your other wishlists through this URL.
+#   Todo: How to get a *public* Amazon-Wishlist-link.
+#   Use an absolute URL starting with 'https':
+#
+WISHLISTS_URL_ANY = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
+
+# By default, we export all your wishlists, but can exclude some.
+#   Mabye, you only want lists with books but not clothes or computer hardware.
+#   Use absolute wishlist URLs starting with 'https':
+#
+WISHLISTS_EXCLUDES = [
+	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/ref=cm_go_nav_hz',  # My list 1
+	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/ref=cm_go_nav_hz'   # My list 2
 ]
 
-WISHLISTS_XMLPATH = './wishlist.xml'  # Change here, you have to rename wishlist.xslt accordingly
+# Name of the exported file. 
+#   If you change the name, you have to rename wishlist.xslt accordingly.
+#   Rename if you want to use a custom XSLT-file which is not overwritten 
+#   by the very next program update. Your custom XSLT-file can also link
+#   a custom CSS-file other than 'wishlist.css'.
+#   Default: './wishlist.xml'
+#
+WISHLISTS_XMLPATH = './wishlist.xml'
 
 
 ##
 ## Edit your localization settings:
 ##
-DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # RFC 5646 language tag: 'de', 'en', ...
-locale.setlocale( locale.LC_ALL, 'de_DE' )               # Locale value: 'de_DE', 'en_US', 'en_GB', ...
+DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # RFC 5646 language tags:  'de', 'en', ... 
+locale.setlocale( locale.LC_ALL, 'de_DE' )               # Locale values: 'de_DE', 'en_US', 'en_GB', ...
 AMAZON_HOST = urlparse( WISHLISTS_URL_ANY ).netloc       # Don't change.
 
 
