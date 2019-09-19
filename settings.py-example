@@ -15,20 +15,22 @@ from urlparse import urlparse
 # Specify which products will be considered on-budget.
 #   These are just defaults differentiated by product priority.
 #
-#   Note: You can override this for individual products by having something 
+#   NOTE: You can override this for individual products by having something 
 #   like "{if $80.50}" or "{ab 5,10 Euro}" or "{12}" or "{yAdda 55.42 yaDdA}"
 #   somewhere in a product comment on your Amazon wishlist,
-#
 #   In comments, use a price number format according to your locale.
-#   Specifying a price below 0 means never on budget (exclusion).
+#   
+#   Specifying a price below 0 means never on budget (can be used for exclusion).
+#   The XML output-file, however, will contain all products but annotated 
+#   with a negative buy-price.
 #
 WISHLISTS_BUYPRICES = {
 	# Pty : Price     # Priority name on Amazon:
-	-2    :   -1,     #   "Don't buy this for me"
-	-1    :   -1,     #   ""
-	 0    :   10.0,   #   "Normal"
-	 1    :   15.0,   #   ""
-	 2    :   15.0    #   "Must have"
+	-2    :   -1,     # "Don't buy this for me"
+	-1    :   -1,     # ""
+	 0    :   10.0,   # "Normal"
+	 1    :   15.0,   # ""
+	 2    :   15.0    # "Must have"
 }
 
 # Specify any of your wishlist URLs.

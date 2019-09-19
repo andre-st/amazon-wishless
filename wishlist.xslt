@@ -7,7 +7,7 @@
 <!-- Specify what you consider a significant price change.
      Products with a significantly reduced price are listed separately.
      Default: 2.00 -->
-<xsl:variable name="SIGNIFICANT_PRICE_CUT" select="2.001" />
+<xsl:variable name="SIGNIFICANT_PRICE_CUT" select="2.00" />
 
 
 <!-- ===================================================================== -->

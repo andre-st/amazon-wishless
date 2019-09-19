@@ -26,14 +26,14 @@ class Product:
 		self.title     =      li.css( '#itemName_'     + self.id + '::text' ).get( default = '' )
 		self.by        =      li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
 		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
-		self.price     = float( li.attrib['data-price'] )  # "-Infinity" or "123.5" (always US-locale)
-		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Default
+		self.price     = float( li.attrib['data-price'] )                # "-Infinity" or "123.5" (always US-locale)
+		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Defaults
 		
 		# Override default buy-price with specified one:
-		# "blabla {BUY $50.23} blabla". "blabbla { kaufe ab 21,45 EUR}", "{ab 77} yadda" 
+		# "yadda {BUY $50.23} yadda", "blabla { kaufe ab 21,45 EUR}", "{ab 77} yadda" 
 		buyprice_mat = re.match( '{.*?(?P<amount>[0-9,.\']+).*?}', self.comment )
 		if buyprice_mat:
-			self.buyprice = locale.atof( buyprice_mat.group( 'amount' ))  # Comma vs dot
+			self.buyprice = locale.atof( buyprice_mat.group( 'amount' ))   # Comma vs dot
 		
 		if used_price_str is not None:
 			used_price_mat = re.match( '(?P<amount>[0-9,.\']+)', used_price_str )
@@ -94,10 +94,10 @@ class XmlWishlistReader:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
 		self._xml = XML.parse( filename ) 
 		
-	def get_price_cut( self, product_id, new_price ):
+	def get_pricecut( self, product_id, new_price ):
 		old_price = self._xml.xpath( "/amazon/wishlist/product[@id='" + product_id + "']/@price" )
-		price_cut = float(old_price[0]) - new_price if old_price else 0
-		return price_cut if price_cut >= 0 else 0
+		pricecut = float(old_price[0]) - new_price if old_price else 0
+		return pricecut if pricecut >= 0 else 0
 
 
 
@@ -135,7 +135,7 @@ class XmlWishlistWriter:
 						'price'    : str( product.price    ),  # US-format and w/o currency for comparison etc
 						'priority' : str( product.priority ),
 						'buyprice' : str( product.buyprice ),
-						'pricecut' : str( self._old and self._old.get_price_cut( product.id, product.price ))
+						'pricecut' : str( self._old and self._old.get_pricecut( product.id, product.price ))
 					}
 					p_elem = XML.SubElement( wl_elem, 'product', p_attr )
 					XML.SubElement( p_elem, 'url'     ).text = product.url
