@@ -6,12 +6,13 @@ import scrapy
 import os
 import re
 
-# Ours:
-import settings
-
 # Third party:
 from scrapy.http.request import Request
 from lxml import etree as XML
+
+# Ours:
+import settings
+
 
 
 # ----------------------------------------------------------------------------
@@ -96,7 +97,7 @@ class XmlWishlistReader:
 		
 	def get_pricecut( self, product_id, new_price ):
 		old_price = self._xml.xpath( "/amazon/wishlist/product[@id='" + product_id + "']/@price" )
-		pricecut = float(old_price[0]) - new_price if old_price else 0
+		pricecut  = float(old_price[0]) - new_price if old_price else 0
 		return pricecut if pricecut >= 0 else 0
 
 
