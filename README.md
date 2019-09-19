@@ -52,7 +52,7 @@ $ firefox wishlist.xml
 
 ## Customization
 
-Components (uppercase), their inputs (cells upwards) and outputs (cells to the right):
+Components (uppercase and shaded), their inputs (cells upwards) and outputs (cells to the right):
 
 ```text
   settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
@@ -74,10 +74,10 @@ Components (uppercase), their inputs (cells upwards) and outputs (cells to the r
                     |::BROWSER-INTERN::::|  generated xhtml   |                    |
                     |::XSLT-PROCESSOR::::|  (in-memory)       |                    |
                     |::::::::::::::::::::|                    |                    |
---------------------+--------------------+--------------------+--------------------|
-                    |                    |::::::::::::::::::::|                    |
-                    |                    |::BROWSER:::::::::::|  pretty xml-viewer |
-                    |                    |::::::::::::::::::::|  (see screenshot)  |
+--------------------|::::::::::::::::::::+--------------------+--------------------|
+                    |:::::::::::::::::::::::::::::::::::::::::|                    |
+                    |:::::::::::::::::::::::BROWSER:::::::::::|  pretty xml-viewer |
+                    |:::::::::::::::::::::::::::::::::::::::::|  (see screenshot)  |
 ```
 
 
