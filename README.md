@@ -59,13 +59,13 @@ Components (uppercase and shaded), their inputs (cells upwards) and outputs (cel
   (filter-rules I,  |  (filter-rules II, |  (colors,fonts,    |                    |
    filenames)       |   headings,sort    |   margins)         |                    |
                     |   order,sections   |                    |                    |
-  wishlist.xml      |   in xml-viewer)   |                    |                    |
+  old wishlist.xml  |   in xml-viewer)   |                    |                    |
   (to id changes)   |                    |                    |                    |
                     |                    |                    |                    |
   amazon-website    |                    |                    |                    |
   (lists,priority)  |                    |                    |                    |
 --------------------+--------------------+--------------------+--------------------|
-::::::::::::::::::::|  wishlist.xml*     |                    |                    |
+::::::::::::::::::::|  wishlist.xml      |                    |                    |
 ::SCRAPER:::::::::::|  (semistructured   |                    |                    |
 ::::::::::::::::::::|   data)            |                    |                    |
 ::::::::::::::::::::|                    |                    |                    |
