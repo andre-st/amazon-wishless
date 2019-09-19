@@ -46,7 +46,7 @@ $ firefox wishlist.xml
 
 - requires _public_ wishlists
 - the second hand price shown by Amazon may be low, but the final price is
-  sometimes realized on frivolously high shipping prices. 
+  _sometimes_ realized on frivolously high shipping prices. 
   Shipping prices are currently not taken into account
 
 
