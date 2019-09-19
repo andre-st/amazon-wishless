@@ -1,11 +1,11 @@
-# Amazon-Wishlists Scraper, v1.2
+# Amazon-Wishlists Export & Price-Monitor, v1.2
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current (2nd hand) prices is time consuming. 
-This scraper exports _all_ lists to a XML-file, 
-with the items filtered and re-ordered according to price, priority etc.
+This Amazon-wishlist scraper exports _all_ lists to a XML-file.
+The XML-file is displayerd with all items filtered and re-ordered according to price, priority etc.
 
 
 ## Exported XML (web-browser view)
