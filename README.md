@@ -78,6 +78,7 @@ Components (uppercase and shaded), their inputs (cells upwards) and outputs (cel
 ::::::::::::::::::::|::::::::::::::::::::|::::::::::::::::::::|                    |
 ::::::::::::::::::::|::::::::::::::::::::|::BROWSER:::::::::::|  pretty xml-viewer |
 ::::::::::::::::::::|::::::::::::::::::::|::::::::::::::::::::|  (see screenshot)  |
+::::::::::::::::::::|::::::::::::::::::::|::::::::::::::::::::|                    |
 ```
 
 XSLT is a declarative, Turing-complete language for transforming 
