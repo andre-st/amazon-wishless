@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 - override default buy-prices by specifying a buy-price directly in a 
   product comment on an Amazon wishlist
   ([#2](https://github.com/andre-st/amazon-wishlist/issues/2))
+- only add products to the "Latest" section if there was a _significant_ price cut 
+  which can be configured in `wishlist.xslt`
 
 
 ## [1.0.0] - 2019-09-07
