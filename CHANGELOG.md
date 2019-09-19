@@ -14,8 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- the XML-viewer sorts products by priority first (higest to lowest) _and_ price second (lowest to highest), now
-- new program dependency `lxml` because the internal XML library (minidom) was replaced
+- the XML-viewer sorts products by priority first (highest to lowest) _and_ price second (lowest to highest), now
+- new program dependency: `lxml` replaces the minidom library for internal XML operations
 
 
 ## [1.0.0] - 2019-09-07
