@@ -3,7 +3,7 @@
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
-I often buy used books and checking all current (2nd hand) prices is time consuming. 
+I often buy used books and checking all current (2nd hand) prices against my budget is time consuming. 
 This Amazon-wishlist scraper exports _all_ lists to a XML-file.
 The XML-file is displayed with all items filtered and re-ordered according to price, priority etc.
 [What's new?](CHANGELOG.md)
