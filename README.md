@@ -50,6 +50,7 @@ $ firefox wishlist.xml
 - the second hand price shown by Amazon may be low, but the final price is
   _sometimes_ realized on frivolously high shipping prices. 
   Shipping prices are currently not taken into account
+- runtime is okay (64 long lists < 30s), requests seem not throttled
 
 
 ## Customization
