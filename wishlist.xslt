@@ -31,7 +31,7 @@
 			<a class="credits" href="https://github.com/andre-st/amazon-wishlist" target="_blank">GitHub</a>
 			
 			<section class="latest">
-				<h2>Latest</h2>
+				<h2>Latest Price-Cut</h2>
 				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= @buyprice and @pricecut &gt;= $SIGNIFICANT_PRICE_CUT]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
