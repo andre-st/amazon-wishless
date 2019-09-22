@@ -31,7 +31,7 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 GNU/Linux terminal:
 
 ```console
-$ git clone https://github.com/andre-st/amazon-wishlist
+$ git clone https://github.com/andre-st/amazon-wishless
 $ cd amazon-wishlist
 $ mv settings.py-example settings.py
 $ vi settings.py        # vi or any other editor
