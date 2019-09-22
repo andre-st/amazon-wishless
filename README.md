@@ -17,7 +17,7 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 
 ## Requirements
 
-- GNU/Linux operating system (other platforms not tested)
+- tested on the GNU/Linux operating system but might work on everything which runs Scrapy
 - Python 2.7.16
 - Scrapy 1.7.3 (web crawling framework)
 - lxml (XML library)
