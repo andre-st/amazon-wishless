@@ -110,9 +110,9 @@ wl-title
 
 wl-by
 {
-	margin: 0.3em 0 0 0;
+	margin: 0.6em 0 0 0;
 	display: block;
-	font-style: italic;
+	font-size: 0.8em;
 	opacity: 0.5;
 	line-height: 1.2;
 }
@@ -121,6 +121,10 @@ wl-by:before
 {
 	content: '\2014\0020';
 	content: 'by ';
+	border-left: 1px dotted;
+	border-top:  1px dotted;
+	border-color: inherit;
+	padding: 1px 0 0 4px;
 }
 
 wl-price
@@ -132,11 +136,27 @@ wl-price
 }
 
 
-wl-product[data-priority="2"]  { color: orange; }
-wl-product[data-priority="1"]  { color: red; }
-wl-product[data-priority="-1"] { color: #ccc; }
-wl-product[data-priority="-2"] { color: #ccc; }
+wl-product[data-priority="2"]  { color: orange; border-color: orange;  }
+wl-product[data-priority="1"]  { color: red;    border-color: red;     }
+wl-product[data-priority="-1"] { color: #ccc;   border-color: #ccc;    }
+wl-product[data-priority="-2"] { color: #ccc;   border-color: #ccc;    }
 
 
+.list-link
+{
+	display: none;
+}
+
+.list-link:before
+{
+	content: ""
+}
+
+section.smartlist .list-link
+{
+	display: inline;
+	font-size: 0.8em;
+	color: inherit;
+}
 
 

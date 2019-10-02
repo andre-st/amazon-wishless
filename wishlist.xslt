@@ -30,23 +30,21 @@
 			
 			<a class="credits" href="https://github.com/andre-st/amazon-wishlist" target="_blank">GitHub</a>
 			
-			<section class="latest">
-				<h2>Latest Price-Cut</h2>
+			<section class="smartlist latest">
+				<h2>Latest price-cut</h2>
 				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= @buyprice and @pricecut &gt;= $SIGNIFICANT_PRICE_CUT]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
 			</section>
 			
-			
-			<section class="higher">
-				<h2>Higher Priority</h2>
+			<section class="smartlist higher">
+				<h2>Higher priority</h2>
 				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= @buyprice and @priority &gt; 0]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
 			</section>
-
 			
 			<xsl:apply-templates select="wishlist">
 				<xsl:sort select="title" data-type="text" order="ascending" />
@@ -65,11 +63,10 @@
 		</xsl:attribute>
 		
 		<figure>
-			<a target="_blank">
+			<a target="_blank" class="product-link">
 				<xsl:attribute name="href">
 					<xsl:value-of select="url" />
 				</xsl:attribute>
-				
 				<img>
 					<xsl:attribute name="src">
 						<xsl:value-of select="picture" />
@@ -83,6 +80,13 @@
 			<xsl:if test="by">
 				<wl-by><xsl:value-of select="by" /></wl-by>
 			</xsl:if>
+			
+			<a target="_blank" class="list-link">
+				<xsl:attribute name="href">
+					<xsl:value-of select="../url" />?sort=priority
+				</xsl:attribute>
+				visit list
+			</a>
 		</wl-info>
 	</wl-product>
 </xsl:template>
@@ -90,7 +94,7 @@
 
 
 <xsl:template match="wishlist">
-	<section>
+	<section class="wishlist">
 		<h2>
 			<a target="_blank">
 				<xsl:attribute name="href">
