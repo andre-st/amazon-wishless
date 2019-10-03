@@ -9,6 +9,12 @@
      Default: 2.00 -->
 <xsl:variable name="SIGNIFICANT_PRICE_CUT" select="2.00" />
 
+<xsl:variable name="LOW_PRICE">2.00</xsl:variable>
+
+<xsl:variable name="CURRENCY">EUR </xsl:variable>
+
+
+
 
 <!-- ===================================================================== -->
 
@@ -41,6 +47,18 @@
 			<section class="smartlist higher">
 				<h2>Higher priority</h2>
 				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= @buyprice and @priority &gt; 0]">
+					<xsl:sort select="@priority" data-type="number" order="descending" />
+					<xsl:sort select="@price"    data-type="number" order="ascending" />
+				</xsl:apply-templates>
+			</section>
+
+			<section class="smartlist cheap">
+				<h2>
+					Products &#8804;
+					<xsl:value-of select="$CURRENCY" />
+					<xsl:value-of select="$LOW_PRICE" />
+				</h2>
+				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= $LOW_PRICE and @priority &gt;= 0]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
