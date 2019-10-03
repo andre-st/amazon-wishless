@@ -86,7 +86,7 @@ class YourLists:
 		return len( self.filtered() )
 	
 	def filtered( self ):
-		return [ u for u in self.urls if u not in settings.WISHLISTS_EXCLUDES ]
+		return [ u for u in self.urls if not u.startswith( tuple( settings.WISHLISTS_EXCLUDES ))]
 
 
 
