@@ -30,11 +30,11 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 GNU/Linux terminal:
 
 ```console
-$ pip install scrapy lxml  # Install dependencies
+$ pip install scrapy lxml   # Install dependencies
 $ git clone https://github.com/andre-st/amazon-wishless
 $ cd amazon-wishlist
 $ mv settings.py-example settings.py
-$ vi settings.py        # vi or any other editor
+$ vi settings.py            # vi or any other editor
 
 Edit your wishlists settings
 Edit your localization settings
