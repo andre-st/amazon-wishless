@@ -21,9 +21,8 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 - Python 2.7.16
 - Scrapy 1.7.3 (web crawling framework)
 - lxml (XML library)
-- pip (package installer for Python) to install dependencies:
-	`$ pip install scrapy lxml`
-	(pip is usually available in your package manager)
+- pip (package installer for Python) to install dependencies 
+  (pip is usually available in the package manager of your Linux distribution)
 
 
 ## Getting started
@@ -31,6 +30,7 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 GNU/Linux terminal:
 
 ```console
+$ pip install scrapy lxml  # Install dependencies
 $ git clone https://github.com/andre-st/amazon-wishless
 $ cd amazon-wishlist
 $ mv settings.py-example settings.py
