@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 
-## [v1.2.2] - 2019-10-04
+## [v1.3.0] - 2019-10-04
 ### Added
 
 - new XML-viewer section with products <= n EUR, you can confgure 'n' in the XSLT file
