@@ -1,4 +1,4 @@
-# Amazon-Wishlists Export & Price-Monitor, v1.2.2
+# Amazon-Wishlists Export & Price-Monitor, v1.3
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
