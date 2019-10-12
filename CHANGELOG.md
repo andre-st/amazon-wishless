@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+Version number 1.MINOR.PATCH, increments:
+- MINOR version when functionality was added, removed, changed
+- PATCH version when bug fixes were added
+
 
 ## [Unreleased]
 
