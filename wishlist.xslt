@@ -76,9 +76,15 @@
 
 <xsl:template match="product">
 	<wl-product>
+		<xsl:attribute name="class">
+			<xsl:if test="@prime='True'">prime</xsl:if>
+		</xsl:attribute>
+		
 		<xsl:attribute name="data-priority">
 			<xsl:value-of select="@priority" />
 		</xsl:attribute>
+		
+
 		
 		<figure>
 			<a target="_blank" class="product-link">

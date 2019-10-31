@@ -26,6 +26,7 @@ class Product:
 		self.comment   =      li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' )
 		self.title     =      li.css( '#itemName_'     + self.id + '::text' ).get( default = '' )
 		self.by        =      li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
+		self.is_prime  = bool( li.css( '.a-icon-prime' ));
 		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
 		self.price     = float( li.attrib['data-price'] )                # "-Infinity" or "123.5" (always US-locale)
 		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Defaults
@@ -39,6 +40,7 @@ class Product:
 		if used_price_str is not None:
 			used_price_mat = re.match( '(?P<amount>[0-9,.\']+)', used_price_str )
 			self.price     = locale.atof( used_price_mat.group( 'amount' ))   # Comma vs dot
+			self.is_prime  = False;
 		
 		if self.by:
 			# "by John Doe (Paperback)", "von: John Doe, Marie Jane", "in der Hauptrolle Maria C."
@@ -136,6 +138,7 @@ class XmlWishlistWriter:
 						'price'    : str( product.price    ),  # US-format and w/o currency for comparison etc
 						'priority' : str( product.priority ),
 						'buyprice' : str( product.buyprice ),
+						'prime'    : str( product.is_prime ),
 						'pricecut' : str( self._old and self._old.get_pricecut( product.id, product.price ))
 					}
 					p_elem = XML.SubElement( wl_elem, 'product', p_attr )

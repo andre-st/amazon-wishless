@@ -142,6 +142,24 @@ wl-product[data-priority="-1"] { color: #ccc;   border-color: #ccc;    }
 wl-product[data-priority="-2"] { color: #ccc;   border-color: #ccc;    }
 
 
+
+wl-product.prime wl-price:after
+{
+	display: inline-block;
+	content: "FreeShip";
+	border: 1px solid;
+	font-weight: normal;
+	font-size: 8pt;
+	margin-left: 0.75em;
+	padding: 4px;
+	line-height: 1em;
+	position: relative;
+	top: -3px;
+	opacity: 0.5;
+}
+
+
+
 .list-link
 {
 	display: none;

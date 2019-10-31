@@ -11,6 +11,12 @@ Version number 1.MINOR.PATCH, increments:
 ## [Unreleased]
 
 
+## [v1.4.0] - 2019-10-31
+### Added
+
+- XML viewer indicates _free shipping_ option
+
+
 ## [v1.3.0] - 2019-10-04
 ### Added
 
