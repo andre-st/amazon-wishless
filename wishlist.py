@@ -154,8 +154,9 @@ class XmlWishlistWriter:
 # ----------------------------------------------------------------------------
 class WishlistsSpider( scrapy.Spider ):
 	# Spider:
-	name       = 'wishlists'
-	start_urls = [ settings.WISHLISTS_URL_ANY ]
+	name            = 'wishlists'
+	start_urls      = [ settings.WISHLISTS_URL_ANY ]
+	custom_settings = settings.SCRAPY_SETTINGS
 	
 	# My:
 	_lists = [];

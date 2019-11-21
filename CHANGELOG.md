@@ -11,10 +11,21 @@ Version number 1.MINOR.PATCH, increments:
 ## [Unreleased]
 
 
+## [v1.4.1] - 2019-11-21
+### Added
+- Download-delay setting to handle 503 Service Unavailable from Amazon
+
+### Fixed
+
+- Scrapy settings in settings.py were ignored
+
+
+
 ## [v1.4.0] - 2019-10-31
 ### Added
 
 - XML viewer indicates _free shipping_ option
+
 
 
 ## [v1.3.0] - 2019-10-04
@@ -25,6 +36,7 @@ Version number 1.MINOR.PATCH, increments:
 ### Changed
 
 - allows non-exact URls for wishlist exclusion in settings.py, it's sufficient if an url _starts with_ the given strings
+
 
 
 ## [v1.2.0] - 2019-09-18
@@ -40,6 +52,7 @@ Version number 1.MINOR.PATCH, increments:
 
 - the XML-viewer sorts products by priority first (highest to lowest) _and_ price second (lowest to highest), now
 - new program dependency: `lxml` replaces the minidom library for internal XML operations
+
 
 
 ## [v1.0.0] - 2019-09-07

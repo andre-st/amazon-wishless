@@ -1,4 +1,4 @@
-# Amazon-Wishlists Export & Price-Monitor, v1.4
+# Amazon-Wishlists Export & Price-Monitor, v1.4.1
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
 
@@ -51,6 +51,9 @@ $ firefox wishlist.xml
   _sometimes_ realized on frivolously high shipping prices. 
   Shipping prices are currently not taken into account
 - runtime is okay (53 long lists or 230 requests < 30 seconds), requests seem not throttled
+- if many lists fail with "503 Service Unavailable" you need to 
+  increase `SCRAPY_SETTIGNS.DOWNLOAD_DELAY` in settings.py
+
 
 
 ## Customization
