@@ -10,6 +10,8 @@ Version number 1.MINOR.PATCH, increments:
 
 ## [Unreleased]
 
+- see [GitHub issues labeled "Soon"](https://github.com/andre-st/amazon-wishless/issues?q=is%3Aopen+is%3Aissue+label%3Asoon)
+
 
 ## [v1.4.1] - 2019-11-21
 ### Added
