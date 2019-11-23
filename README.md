@@ -46,13 +46,13 @@ $ firefox wishlist.xml
 
 ## Observations and limitations
 
-- requires _public_ wishlists
+- requires _public_ wishlists on Amazon
 - the second hand price shown by Amazon may be low, but the final price is
   _sometimes_ realized on frivolously high shipping prices. 
   Shipping prices are currently not taken into account
-- runtime is okay (53 long lists or 230 requests < 30 seconds), requests seem not throttled
+- runtime is okay (53 long lists or 230 requests < 30 seconds)
 - if many lists fail with "503 Service Unavailable" you need to 
-  increase `SCRAPY_SETTIGNS.DOWNLOAD_DELAY` in settings.py
+  increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
 
 
 
