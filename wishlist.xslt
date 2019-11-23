@@ -122,7 +122,7 @@
 		<h2>
 			<a target="_blank">
 				<xsl:attribute name="href">
-					<xsl:value-of select="url" />
+					<xsl:value-of select="url" />?sort=priority
 				</xsl:attribute>
 				<xsl:value-of select="title" />
 			</a>
