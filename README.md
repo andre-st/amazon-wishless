@@ -32,7 +32,7 @@ GNU/Linux terminal:
 ```console
 $ pip install scrapy lxml   # Install dependencies
 $ git clone https://github.com/andre-st/amazon-wishless
-$ cd amazon-wishlist
+$ cd amazon-wishless
 $ mv settings.py-example settings.py
 $ vi settings.py            # vi or any other editor
 
