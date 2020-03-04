@@ -60,32 +60,7 @@ $ firefox wishlist.xml
 
 Components (uppercase and shaded), their inputs (cells upwards) and outputs (cells to the right):
 
-```text
-  settings.py       |  wishlist.xslt     |  wishlist.css      |                    |
-  (filter-rules I,  |  (filter-rules II, |  (colors,fonts,    |                    |
-   filenames)       |   headings,sort    |   margins)         |                    |
-                    |   order,sections   |                    |                    |
-  old wishlist.xml  |   in xml-viewer)   |                    |                    |
-  (to id changes)   |                    |                    |                    |
-                    |                    |                    |                    |
-  amazon-website    |                    |                    |                    |
-  (lists,priority)  |                    |                    |                    |
---------------------+--------------------+--------------------+--------------------|
-::::::::::::::::::::|  wishlist.xml      |                    |                    |
-::SCRAPER:::::::::::|  (semistructured   |                    |                    |
-::::::::::::::::::::|   data)            |                    |                    |
-::::::::::::::::::::|                    |                    |                    |
---------------------+--------------------+--------------------+--------------------|
-::::::::::::::::::::|::::::::::::::::::::|                    |                    |
-::::::::::::::::::::|::BROWSER-INTERN::::|  generated xhtml   |                    |
-::::::::::::::::::::|::XSLT-PROCESSOR::::|  (in-memory)       |                    |
-::::::::::::::::::::|::::::::::::::::::::|                    |                    |
---------------------+--------------------+--------------------+--------------------|
-::::::::::::::::::::|::::::::::::::::::::|::::::::::::::::::::|                    |
-::::::::::::::::::::|::::::::::::::::::::|::BROWSER:::::::::::|  pretty xml-viewer |
-::::::::::::::::::::|::::::::::::::::::::|::::::::::::::::::::|  (see screenshot)  |
-::::::::::::::::::::|::::::::::::::::::::|::::::::::::::::::::|                    |
-```
+![Screenshot](README-custom.png?raw=true "Customization")
 
 XSLT is a declarative, Turing-complete language for transforming 
 XML documents into other XML documents (XHTML in this case). 
