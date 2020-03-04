@@ -4,12 +4,14 @@
 
 <!-- ======================= EDIT YOUR FILTER SETTINGS =================== -->
 
-<!-- Specify what you consider a significant price change.
-     Products with a significantly reduced price are listed separately.
+<!-- Specify what you consider a significant price *change*.
+     Products with a significantly reduced price are listed separately (CHEAP_PRICE).
      Default: 2.00 -->
 <xsl:variable name="SIGNIFICANT_PRICE_CUT" select="2.00" />
 
-<xsl:variable name="LOW_PRICE">2.00</xsl:variable>
+<!-- Specify what you consider a low book price, e.g., 
+     less than 2 euro for a book -->
+<xsl:variable name="CHEAP_PRICE">2.00</xsl:variable>
 
 <xsl:variable name="CURRENCY">EUR </xsl:variable>
 
@@ -56,9 +58,9 @@
 				<h2>
 					Products &#8804;
 					<xsl:value-of select="$CURRENCY" />
-					<xsl:value-of select="$LOW_PRICE" />
+					<xsl:value-of select="$CHEAP_PRICE" />
 				</h2>
-				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= $LOW_PRICE and @priority &gt;= 0]">
+				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= $CHEAP_PRICE and @priority &gt;= 0]">
 					<xsl:sort select="@priority" data-type="number" order="descending" />
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
@@ -126,9 +128,9 @@
 				</xsl:attribute>
 				<xsl:value-of select="title" />
 			</a>
-		</h2>
+			(&#8364;<xsl:value-of select="$CHEAP_PRICE" />&#8210;10.00)</h2> <!-- TODO: Max(@buyprice) only in Firefox-unsupported XSLT2 -->
 		
-		<xsl:apply-templates select="product[@price &gt;= 0 and @price &lt;= @buyprice]">
+		<xsl:apply-templates select="product[@price &gt; $CHEAP_PRICE and @price &lt;= @buyprice]">
 			<xsl:sort select="@priority" data-type="number" order="descending" />
 			<xsl:sort select="@price"    data-type="number" order="ascending" />
 		</xsl:apply-templates>
