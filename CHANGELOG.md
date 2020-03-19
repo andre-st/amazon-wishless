@@ -14,13 +14,14 @@ Version number 1.MINOR.PATCH, increments:
 
 
 
-## [v1.4.2] - 2020-03-19
+## [v1.4.3] - 2020-03-19
 ### Fixed
 
 - `ValueError: invalid literal for int() with base 10: 'MEDIUM'`:
-	Probably an update to the Amazon whislist-UI or different versions of the UI.
-	Amazon uses literals ('MEDIUM', 'LOWEST' etc) for internal priority values now(?), 
-	although changing priorities in the UI still sets numeric values.
+	Probably an update to the Amazon wishlist-UI or different versions of the UI.
+	When viewing a page, Amazon uses literals ('MEDIUM', 'LOWEST' etc) rather than numbers (0, -2 etc) 
+	for internal priority-values, now.
+	Changing priorities in the UI, however, still sets numeric values.
 	So this fix manages both codings, now.
 
 
