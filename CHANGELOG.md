@@ -13,6 +13,17 @@ Version number 1.MINOR.PATCH, increments:
 - see [GitHub issues labeled "Soon"](https://github.com/andre-st/amazon-wishless/issues?q=is%3Aopen+is%3Aissue+label%3Asoon)
 
 
+
+## [v1.4.2] - 2020-03-19
+### Fixed
+
+- `ValueError: invalid literal for int() with base 10: 'MEDIUM'`:
+	Probably an update to the Amazon whislist-UI or different versions of the UI.
+	Amazon uses literals ('MEDIUM', 'LOWEST' etc) for internal priority values now(?), 
+	although changing priorities in the UI still sets numeric values.
+	So this fix manages both codings, now.
+
+
 ## [v1.4.1] - 2019-11-21
 ### Added
 - Download-delay setting to handle 503 Service Unavailable from Amazon
