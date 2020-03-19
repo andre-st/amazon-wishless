@@ -18,17 +18,20 @@ import settings
 # ----------------------------------------------------------------------------
 class Product:
 	def __init__( self, li ):
-		# Since 2020-03-19 priorities are either literals ('MEDIUM') -OR- numeric (0),
-		# We need them as numbers in order to sort items etc.
-		# TODO: Probably more reliable to check classes rather than (internal) values
-		PRIO_LIT2NUMS  = { 'LOWEST' : -2,'LOW' : -1, 'MEDIUM' : 0, 'HIGH' : 1, 'HIGHEST' : 2 }
-		
 		self.id        = li.attrib['data-itemid']  # is not an ASIN
 		used_price_str = li.css( '.itemUsedAndNewPrice::text'          ).get( None )
 		rel_url        = li.css( 'a[id^=itemName]::attr(href)'         ).get( default = '' )
 		self.imgurl    = li.css( 'img::attr(src)'                      ).get( default = '' )
-		prioNumOrLit   = unicode( li.css( '#itemPriority_' + self.id + '::text' ).get( default = 'MEDIUM' ))  # str() has no isnumeric() in Python 2
-		self.priority  = int( prioNumOrLit ) if prioNumOrLit.isnumeric() else PRIO_LIT2NUMS[ prioNumOrLit ]
+		
+		# Since 2020-03-19 priorities are either literals ('MEDIUM') -OR- numeric (0),
+		# We need them as numbers in order to sort items etc.
+		# TODO: Probably more reliable to check classes rather than (internal) values
+		prioNumOrLit = li.css( '#itemPriority_' + self.id + '::text' ).get( default = 'MEDIUM' )
+		try:  # str() has no isnumeric() in Python 2, unicode() isnumeric can't negative values; this is rly recommended, sigh:
+			self.priority = int( prioNumOrLit )
+		except:
+		    	self.priority = { 'LOWEST' : -2,'LOW' : -1, 'MEDIUM' : 0, 'HIGH' : 1, 'HIGHEST' : 2 }[ prioNumOrLit ]
+		
 		self.comment   = li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' )
 		self.title     = li.css( '#itemName_'     + self.id + '::text' ).get( default = '' )
 		self.by        = li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
