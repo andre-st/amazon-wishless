@@ -56,10 +56,8 @@ $ firefox wishlist.xml           # View results
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
 
 **Amazon wishlists without alternative price offers:**
-- since March 2020, Germans get Amazon's price -or- the lowest alternative price for items _not offered by Amazon_ 
-  (latter price _invisible_ on Amazon). They don't get alternative prices for items also offered by Amazon anymore
+- in some countries, Amazon no longer displays the alternative offers for items delivered by Amazon (in Germany since March 2020). We either get Amazon's price or the lowest alternative price for items _not offered by Amazon_ (although _invisible_ on Amazon)
   ![Wishlist Item](README-amazon.png?raw=true "Wishlist Item")  
-  US-Amazon also has the new lists (possibly earlier). UK-Amazon still shows the old design.
 - I had played with another program-version that loads prices from the separate Offer-Listing page for each product
   (which would have included the shipping price too).  
   Given the amount of products and requests, this failed due to Amazon's rate limiting 
