@@ -56,7 +56,7 @@ $ firefox wishlist.xml           # View results
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
 
 **Amazon removed alternative price offers from the wishlists:**
-- now, we get Amazon's price or the lowest alternative price for items _not offered by Amazon_ (price _invisible_ on Amazon)
+- since March 2020 we get Amazon's price or the lowest alternative price for items _not offered by Amazon_ (price _invisible_ on Amazon), we don't get alternative offers for items also offered by Amazon anymore
 - I had played with another program-version that loads prices from the separate Offer-Listing page for each product
 (which would have included the shipping price too).  
 Given the amount of products and requests, this failed due to Amazon's rate limiting 
@@ -65,7 +65,7 @@ Neither increasing the download delay, nor
 faking the user agent header was really helpful.
 And the cost to send requests from different IP addresses would be 
 inconsistent with the project idea of finding _cheap_ deals.   
-- unfortunately, this situation reduces the value of this project (March 2020)
+- unfortunately, this situation reduces the value of this project
 
 
 ## Customization
