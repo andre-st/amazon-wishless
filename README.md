@@ -55,16 +55,16 @@ $ firefox wishlist.xml           # View results
 - if many lists fail with "503 Service Unavailable" you need to 
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
 
-**Amazon wishlists without alternative price offers:**
-- in some countries, Amazon no longer displays the alternative offers (Germany since March 2020):  
+**Amazon wishlists without used prices:**
+- in some countries, Amazon no longer displays the used prices (Germany since March 2020):  
   ![Wishlist Item](README-amazon.png?raw=true "Wishlist Item")  
-- the alternative price is only present for items not delivered by Amazon (although _invisible_ on Amazon)
+- although invisible, the used price can at least be read for items _not_ delivered by Amazon
 - I had played with another program-version that loads prices from the separate Offer-Listing page for each product
   (which would have included the shipping price too).  
   Given the amount of products and requests, this failed due to Amazon's rate limiting 
   (more and more '503 Service Unavailable' errors).
-  Download delay or faked request headers didn't do much.
-  And the cost to send requests from different IP addresses would be 
+  Download-delay or faking request headers didn't do much.
+  And the cost to send requests from different IP addresses in sufficient quantity would be 
   inconsistent with the project idea of finding _cheap_ deals.   
 - unfortunately, this situation reduces the value of this project, 
   although our viewer still shows more information and is clearer
