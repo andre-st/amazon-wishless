@@ -14,15 +14,16 @@ Version number 1.MINOR.PATCH, increments:
 
 
 
-## [v1.4.3] - 2020-03-19
+## [v1.4.3] - 2020-03-26
 ### Fixed
+	- `ValueError: invalid literal for int() with base 10: 'MEDIUM'`:
+	  Amazon encodes priorities either with literals ('MEDIUM', 'LOWEST' etc) now or(!) numbers (0, -2 etc).
 
-- `ValueError: invalid literal for int() with base 10: 'MEDIUM'`:
-	Probably an update to the Amazon wishlist-UI or different versions of the UI.
-	When viewing a page, Amazon uses literals ('MEDIUM', 'LOWEST' etc) rather than numbers (0, -2 etc) 
-	for internal priority-values, now.
-	Changing priorities in the UI, however, still sets numeric values.
-	So this fix manages both codings, now.
+### Changed
+	- Amazon doesn't display alternative price offerings on its wishlists anymore.
+	  At least in the source code there's an alternative price for items not offered by Amazon.
+	  Unfortunately, this situation reduces the value of this project.
+
 
 
 ## [v1.4.1] - 2019-11-21

@@ -37,6 +37,10 @@ class Product:
 		self.by        = li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
 		self.is_prime  = bool( li.css( '.a-icon-prime' ));
 		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
+		
+		# Amazon doesn't display alternative price offerings anymore since 2020-03-23.
+		# At least the lowest price for products not available from Amazon is still 
+		# present in the page source code:
 		self.price     = float( li.attrib['data-price'] )                # "-Infinity" or "123.5" (always US-locale)
 		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Defaults
 		
