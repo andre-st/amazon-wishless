@@ -56,7 +56,7 @@ $ firefox wishlist.xml           # View results
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
 
 **Amazon removed alternative price offers from the wishlists:**
-- now, we can either get Amazon's price or the lowest alternative price for items _not offered by Amazon_
+- now, we get Amazon's price or the lowest alternative price for items _not offered by Amazon_ (price _invisible_ on Amazon)
 - I had played with another program-version that loads prices from the separate Offer-Listing page for each product
 (which would have included the shipping price too).  
 Given the amount of products and requests, this failed due to Amazon's rate limiting 
