@@ -55,7 +55,7 @@ $ firefox wishlist.xml           # View results
 	- I had played with another program-version that loads prices from the separate Offer-Listing page for each product
 	  (which would have included the shipping price too).  
 	  Given the amount of products and requests, this failed due to Amazon's rate limiting 
-	  (gradually more and more '503 Service UNavailable').
+	  (more and more '503 Service Unavailable' errors).
 	  Neither increasing the download delay, nor 
 	  faking the user agent header was really helpful.
 	  And the cost to send requests from different IP addresses would be 
