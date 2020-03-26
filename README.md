@@ -50,16 +50,17 @@ $ firefox wishlist.xml           # View results
 - the second hand price shown by Amazon may be low, but the final price is
   _sometimes_ realized on frivolously high shipping prices. 
   Shipping prices are currently not taken into account
-- :warning: 2020-20-23, Amazon stopped displaying alternative offers on the wishlists:  
-  For now, we still get the lowest alternative price _for items not offered by Amazon_.  
+- :warning: 2020-02-23: Amazon stopped displaying alternative offers on the wishlists.  
+   Now, our program can either get Amazon's price or the lowest alternative price for items _not offered by Amazon_.
 	- I had played with another version that loads prices from the separate Offer-Listing page for each product
 	  (which would have included the shipping price too).  
 	  Given the amount of products and requests, this failed due to Amazon's rate limiting 
-	  (gradually more and more '503 Service Not Available').  
+	  (gradually more and more '503 Service Not Available').
 	  Neither increasing the download delay, nor 
 	  faking the user agent header was really helpful.
 	  And the cost to send requests from different IP addresses would be 
-	  inconsistent with the project idea of finding _cheap_ deals.
+	  inconsistent with the project idea of finding _cheap_ deals.   
+	  Unfortunately, this situation reduces the value of this project.
 - runtime is okay (53 long lists or 230 requests < 30 seconds)
 - if many lists fail with "503 Service Unavailable" you need to 
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
