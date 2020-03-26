@@ -46,7 +46,7 @@ $ firefox wishlist.xml           # View results
 
 ## Observations and limitations
 
-***Latest version:***
+**Latest version:**
 - requires _public_ wishlists on Amazon
 - the second hand price shown by Amazon may be low, but the final price is
   _sometimes_ realized on frivolously high shipping prices. 
