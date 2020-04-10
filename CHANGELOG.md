@@ -14,15 +14,19 @@ Version number 1.MINOR.PATCH, increments:
 
 
 
-## [v1.4.3] - 2020-03-26
+## [v1.5] - 2020-03-19
 ### Fixed
-- `ValueError: invalid literal for int() with base 10: 'MEDIUM'`:
-  Amazon encodes priorities either with literals ('MEDIUM', 'LOWEST' etc) now or numbers (0, -2 etc).
+
+- Amazon revised its wihslists-UI:
+  It does not include used-prices any longer and there are changes in the markup for product priority.
+  Our program gets prices from the separate offer-listing page for each product now.
+  This significantly increases the program's runtime but allows us to retrieve the shipping costs too.
 
 ### Changed
-- Amazon doesn't display alternative price offerings on its wishlists anymore.
-  At least in the source code there's an alternative price for items not offered by Amazon.
-  Unfortunately, this situation reduces the value of this project.
+
+- Prices now include the shipping cost which renders our program more useful
+  since some sellers offer low prices but realize their total price
+  through exorbitant shipping costs. So we get a better picture now.
 
 
 
