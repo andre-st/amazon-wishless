@@ -1,6 +1,12 @@
-# Amazon-Wishlists Export & Price-Monitor, v1.4.3
+# Amazon-Wishlists Export & Price-Monitor, v1.5
 
-![Maintenance](https://img.shields.io/maintenance/yes/2020.svg)
+![Maintenance](https://img.shields.io/maintenance/no/2020.svg)
+
+
+| :warning: Project discontinued: Amazon has removed the used prices from the wish lists. Scraping the price pages for hundreds of products quickly leads to rate limiting and makes the price pages unavailable (503) |
+| --- |
+
+
 
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current, continuously changing 2nd hand prices 
@@ -46,28 +52,18 @@ $ firefox wishlist.xml           # View results
 
 ## Observations and limitations
 
-**Latest version:**
 - requires _public_ wishlists on Amazon
-- the second hand price shown by Amazon may be low, but the final price is
+- ~~the second hand price shown by Amazon may be low, but the final price is
   _sometimes_ realized on frivolously high shipping prices. 
-  Shipping prices are currently not taken into account
-- runtime is okay (53 long lists or 230 requests < 30 seconds)
+  Shipping prices are currently not taken into account~~ 
+  latest version shows prices with shipping costs included
+- since v1.5 (when Amazon dropped used-prices from the wishlists), this 
+  program takes very long to get all prices: 
+  47 long lists took ~4h  (download delay 3.0s)
 - if many lists fail with "503 Service Unavailable" you need to 
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
+  (Amazon's rate limiting)
 
-**Amazon wishlists without used prices:**
-- in some countries, Amazon no longer displays the used prices (Germany since March 2020):  
-  ![Wishlist Item](README-amazon.png?raw=true "Wishlist Item")  
-- although invisible, the used price can at least be read for items _not_ delivered by Amazon
-- I had played with another program-version that loads prices from the separate Offer-Listing page for each product
-  (which would have included the shipping price too).  
-  Given the amount of products and requests, this failed due to Amazon's rate limiting 
-  (more and more '503 Service Unavailable' errors).
-  Download-delay or faking request headers didn't do much.
-  And the cost to send requests from different IP addresses in sufficient quantity would be 
-  inconsistent with the project idea of finding _cheap_ deals.   
-- unfortunately, this situation reduces the value of this project, 
-  although our viewer still shows more information and is clearer
 
 
 ## Customization
