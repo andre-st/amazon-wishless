@@ -71,8 +71,13 @@ AMAZON_HOST = urlparse( WISHLISTS_URL_ANY ).netloc       # Don't change.
 ## You can ignore these scraper settings:
 ##
 SCRAPY_SETTINGS = {
-	'USER_AGENT'     : 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36',
-	'DOWNLOAD_DELAY' : 0.250,  # Seconds
+	'DOWNLOAD_DELAY'         : 3.0,  # Seconds
+	'CONCURRENT_REQUESTS'    : 1,
+	'DOWNLOADER_MIDDLEWARES' :
+	{
+		'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
+		'wishlist.RandomUserAgentMiddleware': 400
+	},
 	#'DOWNLOADER_MIDDLEWARES' : {
 	#	'scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware': None,
 	#	'scrapy_httpcache.downloadermiddlewares.httpcache.AsyncHttpCacheMiddleware': 900,

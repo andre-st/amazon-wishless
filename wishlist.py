@@ -8,83 +8,144 @@ import re
 
 # Third party:
 from scrapy.http.request import Request
+from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
 from lxml import etree as XML
+from random import randint
 
 # Ours:
 import settings
+
+
+# ----------------------------------------------------------------------------
+class RandomUserAgentMiddleware( UserAgentMiddleware ):
+	"""Bypass Amazon's 503 Service Unavailable"""
+    
+	def _get_rand_ua( self ):
+		return 'Mozilla/5.{} (X11; Linux x86_64; rv:{}.{}) Gecko/20{}0101 Firefox/{}.{}'.format( 
+			   randint( 0, 1000 ), 
+			   randint( 10, 60 ), randint( 0, 1000 ), 
+			   randint( 10, 20 ), 
+			   randint( 10, 60 ), randint( 0, 1000 ))
+	
+	def process_request( self, request, spider ):
+		request.headers.setdefault( b'User-Agent', self._get_rand_ua() )
+
+
+
+# ----------------------------------------------------------------------------
+class OfferListingItem:
+	def __init__( self, row ):
+		self.price      = 0.00
+		self.ship_price = 0.00
+		ship_price_str  = row.css( '.olpShippingPrice::text' ).get( default = '0' )  # "EUR 3,00" or missing if free shipping
+		price_str       = row.css( '.olpOfferPrice::text'    ).get( default = '0' )  # "EUR 2,40"
+		ship_price_mat  = re.match( '.*?(?P<amount>[0-9,.\']+)', ship_price_str )
+		price_mat       = re.match( '.*?(?P<amount>[0-9,.\']+)', price_str      )
+		
+		if ship_price_mat:
+			self.ship_price = locale.atof( ship_price_mat.group( 'amount' ))  # Comma vs dot
+		
+		if price_mat:
+			self.price = locale.atof( price_mat.group( 'amount' ))   # Comma vs dot
+		
+		self.price = self.price + self.ship_price
+
+
+
+# ----------------------------------------------------------------------------
+class OfferListing:
+	def __init__( self, response ):
+		self.offers = [ OfferListingItem( row ) for row in response.css( '.olpOffer' )]
+		self.best   = self.offers[0] if self.offers else None   # Amazon actually shows lowest price first
 
 
 
 # ----------------------------------------------------------------------------
 class Product:
 	def __init__( self, li ):
-		self.id        = li.attrib['data-itemid']  # is not an ASIN
-		used_price_str = li.css( '.itemUsedAndNewPrice::text'          ).get( None )
-		rel_url        = li.css( 'a[id^=itemName]::attr(href)'         ).get( default = '' )
-		self.imgurl    = li.css( 'img::attr(src)'                      ).get( default = '' )
+		self.id = li.attrib['data-itemid']  # is not an ASIN
 		
-		# Since 2020-03-19 priorities are either literals ('MEDIUM') -OR- numeric (0),
-		# We need them as numbers in order to sort items etc.
-		# TODO: Probably more reliable to check classes rather than (internal) values
-		prioNumOrLit = li.css( '#itemPriority_' + self.id + '::text' ).get( default = 'MEDIUM' )
-		try:  # str() has no isnumeric() in Python 2, unicode() isnumeric can't negative values; this is rly recommended, sigh:
-			self.priority = int( prioNumOrLit )
-		except:
-		    	self.priority = { 'LOWEST' : -2,'LOW' : -1, 'MEDIUM' : 0, 'HIGH' : 1, 'HIGHEST' : 2 }[ prioNumOrLit ]
+		# There's no attribute with a single ASIN value, always looks like "ASIN:1234567...|A1C2E3F..."
+		actn_params     = li.attrib['data-reposition-action-params']  # JSON string
+		actn_params_mat = re.match( '.*ASIN:(?P<asin>[0-9A-Za-z\-]+).*', actn_params )
+		self.asin       = actn_params_mat.group( 'asin' ) if actn_params_mat else None
 		
-		self.comment   = li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' )
-		self.title     = li.css( '#itemName_'     + self.id + '::text' ).get( default = '' )
-		self.by        = li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
-		self.is_prime  = bool( li.css( '.a-icon-prime' ));
-		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
+		# Misc values:
+		rel_url         = li.css( 'a[id^=itemName]::attr(href)'        ).get( default = '' )
+		self.imgurl     = li.css( 'img::attr(src)'                     ).get( default = '' )
+		self.comment    = li.css( '#itemComment_' + self.id + '::text' ).get( default = '' )
+		self.title      = li.css( '#itemName_'    + self.id + '::text' ).get( default = '' )
+		self.url        = 'https://' + settings.AMAZON_HOST + rel_url
+		self.offers_url = 'https://' + settings.AMAZON_HOST + '/gp/offer-listing/' + self.asin \
+		                + '?f_new=true'           \
+		                + '&f_usedLikeNew=true'   \
+		                + '&f_usedVeryGood=true'  \
+		                + '&f_usedGood=true'      \
+		              # + '&f_usedAcceptable=true'
 		
-		# Amazon doesn't display alternative price offerings anymore since 2020-03-23.
-		# At least the lowest price for products not available from Amazon is still 
-		# present in the page source code:
-		self.price     = float( li.attrib['data-price'] )                # "-Infinity" or "123.5" (always US-locale)
-		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Defaults
-		
-		# Override default buy-price with specified one:
-		# "yadda {BUY $50.23} yadda", "blabla { kaufe ab 21,45 EUR}", "{ab 77} yadda" 
-		buyprice_mat = re.match( '{.*?(?P<amount>[0-9,.\']+).*?}', self.comment )
-		if buyprice_mat:
-			self.buyprice = locale.atof( buyprice_mat.group( 'amount' ))   # Comma vs dot
-		
-		if used_price_str is not None:
-			used_price_mat = re.match( '(?P<amount>[0-9,.\']+)', used_price_str )
-			self.price     = locale.atof( used_price_mat.group( 'amount' ))   # Comma vs dot
-			self.is_prime  = False;
-		
+		# Creator: "by John Doe (Paperback)", "von: John Doe, Marie Jane", "in der Hauptrolle Maria C."
+		self.by = li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
 		if self.by:
-			# "by John Doe (Paperback)", "von: John Doe, Marie Jane", "in der Hauptrolle Maria C."
 			self.by = re.sub( '^von: ',  '', self.by )
 			self.by = re.sub( '^by ',    '', self.by )
 			self.by = re.sub( '\(.*?\)', '', self.by )
 		
-		self.price_l10n = locale.currency( self.price )
+		# Priority: Probably more reliable to check classes rather than (internal) values?
+		# Try/except bc str() has no isnumeric() in Python 2, unicode() isnumeric can't negative values:
+		prioNumOrLit = li.css( '#itemPriority_' + self.id + '::text' ).get( default = 'MEDIUM' )
+		try:
+			self.priority = int( prioNumOrLit )
+		except:
+			self.priority = { 'LOWEST' : -2, 'LOW' : -1, 'MEDIUM' : 0, 'HIGH' : 1, 'HIGHEST' : 2 }[ prioNumOrLit ]
+		
+		# Buy-price: Overrides default buy-price with specified one:
+		# "yadda {BUY $50.23} yadda", "blabla { kaufe ab 21,45 EUR}", "{ab 77} yadda" 
+		self.buyprice = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Defaults
+		buyprice_mat  = re.match( '{.*?(?P<amount>[0-9,.\']+).*?}', self.comment )
+		if buyprice_mat:
+			self.buyprice = locale.atof( buyprice_mat.group( 'amount' ))   # Comma vs dot
+		
+		# Price:
+		self.price      = None
+		self.price_l10n = 'n/a'
 	
+	
+	def price_request( self ):
+		return Request( self.offers_url, callback = self._parse_offers ) 
+	
+	def _parse_offers( self, offer_listing_response ):
+		offers = OfferListing( offer_listing_response )
+		if offers.best:
+			self.price      = offers.best.price
+			self.price_l10n = locale.currency( self.price )
+
 
 
 # ----------------------------------------------------------------------------
 class Wishlist:
-	def __init__( self, response ):
-		self.url            = response.url
-		self.title          = response.css( '#profile-list-name::text' ).get( default = '' )
-		self.products       = []
-		self.first_more_url = self.add_response( response )
+	_last_response = None
 	
+	def __init__( self, response ):
+		self.url      = response.url
+		self.title    = response.css( '#profile-list-name::text' ).get( default = '' )
+		self.products = []
+		self._add_response( response )
+		
 	def __iter__( self ):
 		return iter( self.products )
 	
 	def __len__( self ):
 		return len( self.products )
-		
-	def add_response( self, response ):
-		"""Returns URL for next HTML part of successively loaded wishlist (infinite scrolling)"""
+	
+	def _add_response( self, response ):
 		prods = [ Product( li ) for li in response.css( 'li[data-price]' )]
 		self.products.extend( prods )
-		lek = response.css( 'input[name="lastEvaluatedKey"]::attr(value)' ).get()
-		return self.url + '?lek=' + lek if lek else None
+		self._last_response = response
+		
+	def extend_request( self ):
+		# Infinite scroll "pagination":
+		lek = self._last_response.css( 'input[name="lastEvaluatedKey"]::attr(value)' ).get()
+		return Request( self.url + '?lek=' + lek,  callback = self._add_response ) if lek else None
 
 
 
@@ -148,10 +209,10 @@ class XmlWishlistWriter:
 				for product in wl:
 					p_attr = {
 						'id'       : product.id,
+						'asin'     : product.asin,
 						'price'    : str( product.price    ),  # US-format and w/o currency for comparison etc
 						'priority' : str( product.priority ),
 						'buyprice' : str( product.buyprice ),
-						'prime'    : str( product.is_prime ),
 						'pricecut' : str( self._old and self._old.get_pricecut( product.id, product.price ))
 					}
 					p_elem = XML.SubElement( wl_elem, 'product', p_attr )
@@ -184,18 +245,16 @@ class WishlistsSpider( scrapy.Spider ):
 			yield Request( url, callback = self.parse_wl )
 	
 	# My:
-	def parse_wl( self, response, wishlist = None ):
-		if wishlist:
-			more_url = wishlist.add_response( response )
-		else:
-			wishlist = Wishlist( response )
-			more_url = wishlist.first_more_url
-			self._lists.append( wishlist )
+	def parse_wl( self, response ):
+		wl = Wishlist( response );
+		while True:
+			req = wl.extend_request()
+			if not req: 
+				break
+			yield req
 		
-		# Infinite scroll "pagination"
-		if more_url:
-			yield Request( more_url, callback = self.parse_wl, cb_kwargs = { 'wishlist': wishlist })
-
-
-
+		for product in wl:
+		    yield product.price_request()
+			
+		self._lists.append( wl )
 
