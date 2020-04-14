@@ -74,7 +74,7 @@ $ firefox wishlist.xml           # View results
   It's required to transform the raw XML data into an useful report. You would have to...
 	- visit `about:config` and disable `privacy.file_unique_origin`,
 	- or access the files through a web-server
-	- or `xsltproc wishlist.xslt wishlist.xml > wishlist.html && firefox --new-tab wishlist.html`
+	- or run `$ xsltproc wishlist.xslt wishlist.xml > wishlist.html  &&  firefox --new-tab wishlist.html`
 
 
 
