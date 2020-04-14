@@ -69,9 +69,9 @@ $ firefox wishlist.xml           # View results
 - unfortunately, this situation reduces the value of this project, 
   although our viewer still shows more information and is clearer
 
-**Firefox CORS-Issue:**
-- Firefox 68+ doesn't any longer load the local XSLT file, which is located in the same directory as the XML file ("Cross Origin" and file URIs).
-  So your XML will looks wrong. You would have to...
+**Firefox 68+ XSLT CORS-issue:**
+- Firefox doesn't load the local XSLT file anymore, which is referenced by the XML file and located in the same directory ("Cross Origin" and file URIs).
+  It's required to transform the raw XML data into an useful report. You would have to...
 	- visit `about:config` and disable `privacy.file_unique_origin`,
 	- or access the files through a web-server
 
