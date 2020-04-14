@@ -59,7 +59,7 @@ $ firefox wishlist.xml           # View results
 - in some countries, Amazon no longer displays the used prices (Germany since March 2020):  
   ![Wishlist Item](README-amazon.png?raw=true "Wishlist Item")  
 - although invisible, the used price can at least be read for items _not_ delivered by Amazon
-- I had played with another program-version that loads prices from the separate Offer-Listing page for each product
+- I had played with [another program-version](https://github.com/andre-st/amazon-wishless/tree/feat-offerlist-abandoned) that loads prices from the separate Offer-Listing page for each product
   (which would have included the shipping price too).  
   Given the amount of products and requests, this failed due to Amazon's rate limiting 
   (more and more '503 Service Unavailable' errors).
