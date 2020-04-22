@@ -14,6 +14,14 @@ Version number 1.MINOR.PATCH, increments:
 
 
 
+## [v1.4.4] - 2020-04-22
+### Changed
+- Firefox doesn't autoload the XSLT file anymore, 
+  which is referenced by the XML file and located in the same directory ("Cross Origin" and file URIs). 
+  `wishlist.sh` generates the HTML file outside the browser now using `xsltproc` 
+  if available on the user's system and will print a warning otherwise.
+
+
 ## [v1.4.3] - 2020-03-26
 ### Fixed
 - `ValueError: invalid literal for int() with base 10: 'MEDIUM'`:
