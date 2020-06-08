@@ -119,9 +119,12 @@ class XmlWishlistReader:
 
 # ----------------------------------------------------------------------------
 class XmlWishlistWriter:
-	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
-		self.filename = filename
-		self._old     = None
+	def __init__( self, filename = settings.WISHLISTS_XMLPATH, xsl_outfname = settings.WISHLISTS_XSLOUTPATH ):
+		self.filename     = filename
+		base, ext         = os.path.splitext( self.filename )
+		self.xsl_path     = base + '.xslt'  # Dynamic name eases customization
+		self.xsl_outfname = xsl_outfname
+		self._old         = None
 		if os.path.exists( filename ):
 			try:
 				self._old = XmlWishlistReader( filename )
@@ -130,14 +133,17 @@ class XmlWishlistWriter:
 	
 	def __enter__( self ):
 		self._xml = XML.ElementTree( XML.Element( 'amazon' ))
-		base, ext = os.path.splitext( self.filename )
-		xsl_path  = base + '.xslt'  # Dynamic name eases customization
-		pi_xsl    = XML.ProcessingInstruction( 'xml-stylesheet', 'type="text/xsl" href="' + xsl_path + '"' )
+		pi_xsl    = XML.ProcessingInstruction( 'xml-stylesheet', 'type="text/xsl" href="' + self.xsl_path + '"' )
 		self._xml.getroot().addprevious( pi_xsl )
 		return self
 	
 	def __exit__( self, type, value, traceback ):
-		self._xml.write( self.filename, xml_declaration = True, pretty_print = True )
+		self._xml.write( self.filename, xml_declaration = True, pretty_print = True )  # Always required to id changes
+		if( self.xsl_outfname ):
+			xsl  = XML.parse( self.xsl_path )
+			tran = XML.XSLT( xsl )
+			xnew = tran( self._xml )
+			xnew.write( self.xsl_outfname, xml_declaration = True, pretty_print = True )
 	
 	def write_wl( self, wishlists ):
 		for wl in wishlists:
@@ -161,6 +167,8 @@ class XmlWishlistWriter:
 					XML.SubElement( p_elem, 'by'      ).text = product.by
 					XML.SubElement( p_elem, 'comment' ).text = product.comment
 					XML.SubElement( p_elem, 'price'   ).text = product.price_l10n  # Localized format with currency
+	
+	
 
 
 

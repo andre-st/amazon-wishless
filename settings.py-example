@@ -49,14 +49,20 @@ WISHLISTS_EXCLUDES = [
 	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/'   # My list 2
 ]
 
-# Name of the exported file. 
+# Names of the exported files.
+#
 #   If you change the name, you have to rename wishlist.xslt accordingly.
 #   Rename if you want to use a custom XSLT-file which is not overwritten 
 #   by the very next program update. Your custom XSLT-file can also link
 #   a custom CSS-file other than 'wishlist.css'.
 #   Default: './wishlist.xml'
 #
-WISHLISTS_XMLPATH = './wishlist.xml'
+WISHLISTS_XMLPATH    = './wishlist.xml'
+#
+#   The default XSLT file transforms to XHTML:
+#   Default: './wishlist.html'
+#
+WISHLISTS_XSLOUTPATH = './wishlist.html'
 
 
 ##
