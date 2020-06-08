@@ -108,9 +108,7 @@
 			</xsl:if>
 			
 			<a target="_blank" class="list-link">
-				<xsl:attribute name="href">
-					<xsl:value-of select="../url" />?sort=priority
-				</xsl:attribute>
+				<xsl:attribute name="href"><xsl:value-of select="../url" />?sort=priority</xsl:attribute>
 				visit list
 			</a>
 		</wl-info>
