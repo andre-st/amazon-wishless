@@ -1,4 +1,4 @@
-# Amazon-Wishlists Export & Price-Monitor, v1.4.4
+# Amazon-Wishlists Export & Price-Monitor, v1.4.6
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2020.svg)
 
@@ -19,8 +19,8 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 
 - tested on the GNU/Linux operating system but might work on everything which runs Scrapy
 - Python 2.7.16
-- Scrapy 1.7.3 (web crawling framework)
-- lxml (XML library)
+- Scrapy 1.8.0 (Python web crawling framework)
+- lxml (Python XML library)
 - pip (package installer for Python) to install dependencies 
   (pip is usually available in the package manager of your Linux distribution)
 
@@ -30,7 +30,7 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 GNU/Linux terminal:
 
 ```console
-$ pip install scrapy lxml        # Install dependencies
+$ pip2.7 install scrapy lxml     # Install dependencies
 $ git clone https://github.com/andre-st/amazon-wishless
 $ cd amazon-wishless
 $ mv settings.py-example settings.py
@@ -39,8 +39,7 @@ $ vi settings.py                 # vi or any other editor
 Edit your wishlists settings
 Edit your localization settings
 
-$ scrapy runspider wishlist.py   # Get latest prices
-$ firefox wishlist.xml           # View results
+$ ./wishlist.sh     # Assumes BROWSER environment variable set, otherwise starts Firefox browser
 ```
 
 
@@ -56,7 +55,7 @@ $ firefox wishlist.xml           # View results
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
 
 **Amazon wishlists without used prices:**
-- in some countries, Amazon no longer displays the used prices (Germany since March 2020):  
+- in some countries, Amazon no longer displayed the used prices (Germany in March 2020 but rolled back later):  
   ![Wishlist Item](README-amazon.png?raw=true "Wishlist Item")  
 - although invisible, the used price can at least be read for items _not_ delivered by Amazon
 - I had played with [another program-version](https://github.com/andre-st/amazon-wishless/tree/feat-offerlist-abandoned) that loads prices from the separate Offer-Listing page for each product
@@ -66,16 +65,16 @@ $ firefox wishlist.xml           # View results
   Download-delay or faking request headers didn't do much.
   And the cost to send requests from different IP addresses in sufficient quantity would be 
   inconsistent with the project idea of finding _cheap_ deals.   
-- unfortunately, this situation reduces the value of this project, 
+- unfortunately, if you encounter this situation it will reduce the value of this project, 
   although our viewer still shows more information and is clearer
 
 **Firefox 68+ XSLT CORS-issue:**
 - Firefox doesn't autoload the XSLT file anymore, which is referenced by the XML file and located in the same directory ("Cross Origin" and file URIs).
-  The XSLT transforms the raw XML data into an useful report. You would have to...
+  The XSLT transforms the raw XML data into an useful report. 
+  Since 1.4.6 the Python script does the transformation itself, but when you change the XSLT code and don't want to re-run the script everytime, you would have to...
 	- visit `about:config` and disable `privacy.file_unique_origin`,
 	- or access the files through a web-server
 	- or run `$ xsltproc wishlist.xslt wishlist.xml > wishlist.html  &&  firefox wishlist.html`
-
 
 
 ## Customization
@@ -87,10 +86,8 @@ Components (uppercase and shaded), their inputs (cells upwards) and outputs (cel
 XSLT is a declarative, Turing-complete language for transforming 
 XML documents into other XML documents (XHTML in this case). 
 XSLT runs queries against the XML-file and feeds the result into templates
-with placeholders. The web-browser automatically loads and processes the XSLT and CSS files
-for `wishlist.xml`. XML, XSLT and CSS are supported by modern web-browsers out of the box.
-
-For your own XSLT-file just change the `WISHLISTS_XMLPATH` value in `settings.py`.
+with placeholders. 
+For your own XSLT-file just change the `WISHLISTS_XMLPATH` and `WISHLISTS_XSLOUTPATH` values in `settings.py`.
 
 
 ## Feedback
