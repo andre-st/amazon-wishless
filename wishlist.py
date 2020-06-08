@@ -121,8 +121,6 @@ class XmlWishlistReader:
 class XmlWishlistWriter:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH, xsl_outfname = settings.WISHLISTS_XSLOUTPATH ):
 		self.filename     = filename
-		base, ext         = os.path.splitext( self.filename )
-		self.xsl_path     = base + '.xslt'  # Dynamic name eases customization
 		self.xsl_outfname = xsl_outfname
 		self._old         = None
 		if os.path.exists( filename ):
@@ -133,16 +131,16 @@ class XmlWishlistWriter:
 	
 	def __enter__( self ):
 		self._xml = XML.ElementTree( XML.Element( 'amazon' ))
-		pi_xsl    = XML.ProcessingInstruction( 'xml-stylesheet', 'type="text/xsl" href="' + self.xsl_path + '"' )
-		self._xml.getroot().addprevious( pi_xsl )
 		return self
 	
 	def __exit__( self, type, value, traceback ):
 		self._xml.write( self.filename, xml_declaration = True, pretty_print = True )  # Always required to id changes
-		if( self.xsl_outfname ):
-			xsl  = XML.parse( self.xsl_path )
-			tran = XML.XSLT( xsl )
-			xnew = tran( self._xml )
+		if self.xsl_outfname:
+			base, ext = os.path.splitext( self.xsl_outfname )
+			xsl_path  = base + '.xslt'  # Dynamic name eases customization
+			xsl       = XML.parse( xsl_path )
+			tran      = XML.XSLT( xsl )
+			xnew      = tran( self._xml )
 			xnew.write( self.xsl_outfname, xml_declaration = True, pretty_print = True )
 	
 	def write_wl( self, wishlists ):

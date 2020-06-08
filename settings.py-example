@@ -50,16 +50,15 @@ WISHLISTS_EXCLUDES = [
 ]
 
 # Names of the exported files.
-#
-#   If you change the name, you have to rename wishlist.xslt accordingly.
-#   Rename if you want to use a custom XSLT-file which is not overwritten 
-#   by the very next program update. Your custom XSLT-file can also link
-#   a custom CSS-file other than 'wishlist.css'.
 #   Default: './wishlist.xml'
 #
 WISHLISTS_XMLPATH    = './wishlist.xml'
 #
-#   The default XSLT file transforms to XHTML:
+#   Filename of the HTML report (or any other XSLT product).
+#   If you change the name, you have to rename wishlist.xslt accordingly.
+#   Rename if you want to use a custom XSLT-file which is not overwritten
+#   by the very next program update. Your custom XSLT-file can also link
+#   a custom CSS-file other than 'wishlist.css'.
 #   Default: './wishlist.html'
 #
 WISHLISTS_XSLOUTPATH = './wishlist.html'
