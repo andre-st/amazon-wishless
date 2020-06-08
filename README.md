@@ -83,7 +83,7 @@ XSLT is a declarative, Turing-complete language for transforming
 XML documents into other XML documents (XHTML in this case). 
 XSLT runs queries against the XML-file and feeds the result into templates
 with placeholders. 
-For your own XSLT-file just change the `WISHLISTS_XMLPATH` and `WISHLISTS_XSLOUTPATH` values in `settings.py`.
+For your own XSLT-file just change the `WISHLISTS_XSLOUTPATH` value in `settings.py`.
 
 
 ## Feedback
