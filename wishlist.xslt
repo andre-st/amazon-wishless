@@ -46,6 +46,7 @@
 				</xsl:apply-templates>
 			</section>
 			
+			
 			<section class="smartlist higher">
 				<h2>Higher priority</h2>
 				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= @buyprice and @priority &gt; 0]">
@@ -53,7 +54,24 @@
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
 			</section>
-
+			
+			
+			<section class="nav">
+				<h2>Jump to list</h2>
+				<ul>
+					<xsl:for-each select="wishlist">
+						<xsl:sort select="title" data-type="text" order="ascending" />
+						<li>
+							<a>
+								<xsl:attribute name="href">#<xsl:value-of select="@id" /></xsl:attribute>
+								<xsl:value-of select="title" />
+							</a>
+						</li>
+					</xsl:for-each>
+				</ul>
+			</section>
+			
+			
 			<section class="smartlist cheap">
 				<h2>
 					Products &#8804;
@@ -65,6 +83,7 @@
 					<xsl:sort select="@price"    data-type="number" order="ascending" />
 				</xsl:apply-templates>
 			</section>
+				
 			
 			<xsl:apply-templates select="wishlist">
 				<xsl:sort select="title" data-type="text" order="ascending" />
@@ -86,7 +105,6 @@
 			<xsl:value-of select="@priority" />
 		</xsl:attribute>
 		
-
 		
 		<figure>
 			<a target="_blank" class="product-link">
@@ -119,6 +137,10 @@
 
 <xsl:template match="wishlist">
 	<section class="wishlist">
+		<xsl:attribute name="id">
+			<xsl:value-of select="@id" />
+		</xsl:attribute>
+		
 		<h2>
 			<a target="_blank">
 				<xsl:attribute name="href">

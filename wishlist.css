@@ -178,3 +178,9 @@ section.smartlist .list-link
 }
 
 
+
+.nav ul
+{
+	columns: 4;
+}
+

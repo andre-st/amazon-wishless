@@ -70,6 +70,7 @@ class Wishlist:
 	def __init__( self, response ):
 		self.url            = response.url
 		self.title          = response.css( '#profile-list-name::text' ).get( default = '' )
+		self.id             = response.css( '#listId::attr(value)'     ).get( default = '' );
 		self.products       = []
 		self.first_more_url = self.add_response( response )
 	
@@ -146,7 +147,7 @@ class XmlWishlistWriter:
 	def write_wl( self, wishlists ):
 		for wl in wishlists:
 			if len( wl ) > 0:
-				wl_elem = XML.SubElement( self._xml.getroot(), 'wishlist' )
+				wl_elem = XML.SubElement( self._xml.getroot(), 'wishlist', { 'id' : wl.id })
 				XML.SubElement( wl_elem, 'title' ).text = wl.title
 				XML.SubElement( wl_elem, 'url'   ).text = wl.url
 				for product in wl:
