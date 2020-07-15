@@ -56,6 +56,19 @@
 			</section>
 			
 			
+			<section class="smartlist cheap">
+				<h2>
+					Products &#8804;
+					<xsl:value-of select="$CURRENCY" />
+					<xsl:value-of select="$CHEAP_PRICE" />
+				</h2>
+				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= $CHEAP_PRICE and @priority &gt;= 0]">
+					<xsl:sort select="@priority" data-type="number" order="descending" />
+					<xsl:sort select="@price"    data-type="number" order="ascending" />
+				</xsl:apply-templates>
+			</section>
+			
+			
 			<section class="nav">
 				<h2>Jump to list</h2>
 				<ul>
@@ -71,19 +84,6 @@
 				</ul>
 			</section>
 			
-			
-			<section class="smartlist cheap">
-				<h2>
-					Products &#8804;
-					<xsl:value-of select="$CURRENCY" />
-					<xsl:value-of select="$CHEAP_PRICE" />
-				</h2>
-				<xsl:apply-templates select="wishlist/product[@price &gt;= 0 and @price &lt;= $CHEAP_PRICE and @priority &gt;= 0]">
-					<xsl:sort select="@priority" data-type="number" order="descending" />
-					<xsl:sort select="@price"    data-type="number" order="ascending" />
-				</xsl:apply-templates>
-			</section>
-				
 			
 			<xsl:apply-templates select="wishlist">
 				<xsl:sort select="title" data-type="text" order="ascending" />
