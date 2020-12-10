@@ -77,7 +77,7 @@ $ ./wishlist.sh     # Assumes BROWSER environment variable set, otherwise starts
 
 Components (uppercase and shaded), their inputs (cells upwards) and outputs (cells to the right):
 
-![Screenshot](README-custom.png?raw=true "Customization")
+![Screenshot](README-custom.svg?raw=true "Customization")
 
 XSLT is a declarative, Turing-complete language for transforming 
 XML documents into other XML documents (XHTML in this case). 

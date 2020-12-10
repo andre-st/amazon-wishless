@@ -1,0 +1,71 @@
+<?xml version="1.0" standalone="yes"?>
+<svg fill="none" viewBox="0 0 800 450" width="800" height="450" xmlns="http://www.w3.org/2000/svg">
+	<foreignObject width="100%" height="100%">
+		<body xmlns="http://www.w3.org/1999/xhtml">
+			<style>
+				body { margin: 0; padding: 0; }
+				table { margin: 0; background-color: white; width: 100%; border-collapse: collapse; font-family: arial; table-layout: fixed; }
+				table td, table th { border: 1px solid #000; text-align: center; padding: 1em; }
+				table th { background-color: #efefef; color: #000; text-transform: uppercase; }
+				table td { background-color: #ffffff; color: #000; }
+			</style>
+			<table>
+				<tr>
+					<td>
+						<strong>settings.py</strong><br />
+						(filter rules I, filenames)<br />
+						<br />
+						
+						<span style="opacity: 0.4">
+						<strong>old wishlist</strong><br />
+						(to id changes)<br />
+						</span>
+						<br />
+						
+						<strong>amazon-website</strong><br />
+						(lists, priority, buyprices)<br />
+						<br />
+						
+						<strong>wishlist.xslt</strong><br />
+						(filter rules II, headings, sort order, sections in xml-viewer)<br />
+						
+					</td>
+					
+					<td>&#160;</td>
+					
+					<td>
+						<strong>wishlist.css</strong><br />
+						(colors, fonts, margins, section layout)<br />
+					</td>
+					
+					<td>&#160;</td>
+				</tr>
+				
+				<tr>
+					<th>Scraper</th>
+					<td>
+						<strong>wishlist.xml</strong><br />
+						(semistructured data)<br />
+					</td>
+					
+					<td>
+						<strong>wishlist.html</strong><br />
+					</td>
+					
+					<td>&#160;</td>
+				</tr>
+				
+				
+				<tr>
+					<th>&#160;</th>
+					<th>&#160;</th>
+					<th>Browser</th>
+					<td>
+						<strong>pretty xml-viewer</strong><br />
+						(see screenshot)<br />
+					</td>
+				</tr>		
+			</table>
+		</body>
+	</foreignObject>
+</svg>
