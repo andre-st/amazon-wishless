@@ -5,6 +5,7 @@ import locale
 import scrapy
 import os
 import re
+import logging
 
 # Third party:
 from scrapy.http.request import Request
@@ -19,9 +20,9 @@ import settings
 class Product:
 	def __init__( self, li ):
 		self.id        = li.attrib['data-itemid']  # is not an ASIN
-		used_price_str = li.css( '.itemUsedAndNewPrice::text'          ).get( None )
-		rel_url        = li.css( 'a[id^=itemName]::attr(href)'         ).get( default = '' )
-		self.imgurl    = li.css( 'img::attr(src)'                      ).get( default = '' )
+		used_price_str = li.css( '.itemUsedAndNewPrice::text'  ).get( None         )
+		rel_url        = li.css( 'a[id^=itemName]::attr(href)' ).get( default = '' )
+		self.imgurl    = li.css( 'img::attr(src)'              ).get( default = '' )
 		
 		# Since 2020-03-19 priorities are either literals ('MEDIUM') -OR- numeric (0),
 		# We need them as numbers in order to sort items etc.
@@ -32,17 +33,17 @@ class Product:
 		except:
 		    	self.priority = { 'LOWEST' : -2,'LOW' : -1, 'MEDIUM' : 0, 'HIGH' : 1, 'HIGHEST' : 2 }[ prioNumOrLit ]
 		
-		self.comment   = li.css( '#itemComment_'  + self.id + '::text' ).get( default = '' )
-		self.title     = li.css( '#itemName_'     + self.id + '::text' ).get( default = '' )
-		self.by        = li.css( '#item-byline-'  + self.id + '::text' ).get( default = '' )
+		self.comment   = li.css( '#itemComment_' + self.id + '::text' ).get( default = '' )
+		self.title     = li.css( '#itemName_'    + self.id + '::text' ).get( default = '' )
+		self.by        = li.css( '#item-byline-' + self.id + '::text' ).get( default = '' )
 		self.is_prime  = bool( li.css( '.a-icon-prime' ));
-		self.url       = 'https://' + settings.AMAZON_HOST + rel_url
+		self.url       = settings.AMAZON_BASEURL + rel_url
 		
 		# Amazon doesn't display alternative price offerings anymore since 2020-03-23.
 		# At least the lowest price for products not available from Amazon is still 
 		# present in the page source code:
 		self.price     = float( li.attrib['data-price'] )                # "-Infinity" or "123.5" (always US-locale)
-		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ];  # Defaults
+		self.buyprice  = settings.WISHLISTS_BUYPRICES[ self.priority ]   # Defaults
 		
 		# Override default buy-price with specified one:
 		# "yadda {BUY $50.23} yadda", "blabla { kaufe ab 21,45 EUR}", "{ab 77} yadda" 
@@ -51,9 +52,10 @@ class Product:
 			self.buyprice = locale.atof( buyprice_mat.group( 'amount' ))   # Comma vs dot
 		
 		if used_price_str is not None:
+			self.is_prime = False;
 			used_price_mat = re.match( '(?P<amount>[0-9,.\']+)', used_price_str )
-			self.price     = locale.atof( used_price_mat.group( 'amount' ))   # Comma vs dot
-			self.is_prime  = False;
+			if used_price_mat:
+				self.price = locale.atof( used_price_mat.group( 'amount' ))   # Comma vs dot
 		
 		if self.by:
 			# "by John Doe (Paperback)", "von: John Doe, Marie Jane", "in der Hauptrolle Maria C."
@@ -62,15 +64,16 @@ class Product:
 			self.by = re.sub( '\(.*?\)', '', self.by )
 		
 		self.price_l10n = locale.currency( self.price )
-	
+
 
 
 # ----------------------------------------------------------------------------
 class Wishlist:
 	def __init__( self, response ):
+		self.logger         = logging.getLogger( __name__ )
 		self.url            = response.url
 		self.title          = response.css( '#profile-list-name::text' ).get( default = '' )
-		self.id             = response.css( '#listId::attr(value)'     ).get( default = '' );
+		self.id             = response.css( '#listId::attr(value)'     ).get( default = '' )
 		self.products       = []
 		self.first_more_url = self.add_response( response )
 	
@@ -79,27 +82,48 @@ class Wishlist:
 	
 	def __len__( self ):
 		return len( self.products )
-		
+	
+	def __str__( self ):
+		return "Wishlist '{}' ({} items, atm)".format( self.title.encode( 'ascii', 'ignore' ), len( self ))
+	
 	def add_response( self, response ):
 		"""Returns URL for next HTML part of successively loaded wishlist (infinite scrolling)"""
 		prods = [ Product( li ) for li in response.css( 'li[data-price]' )]
 		self.products.extend( prods )
-		lek = response.css( 'input[name="lastEvaluatedKey"]::attr(value)' ).get()
-		return self.url + '?lek=' + lek if lek else None
+		self.logger.debug( self )
+		
+		# Since 2012-01-09 either or
+		next_rel_url = response.css( 'a[href*="paginationToken="]::attr(href)' ).get()
+		if next_rel_url:
+			next_url = settings.AMAZON_BASEURL + next_rel_url
+		else:
+			lek      = response.css( 'input[name="lastEvaluatedKey"]::attr(value)' ).get()
+			next_url = self.url + '?lek=' + lek if lek else None
+		
+		return next_url
 
 
 
 # ----------------------------------------------------------------------------
 class YourLists:
 	def __init__( self, response ):
-		rel_urls  = response.css( '#your-lists-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
-		self.urls = [ 'https://' + settings.AMAZON_HOST + u for u in rel_urls ]
+		# Since 2021-01-09 either or:
+		rel_urls = response.css( '#your-lists-nav a[href^="/hz/wishlist/genericItemsPage/"]::attr(href)' ).getall()
+		if not rel_urls:
+			rel_urls = response.css( '#left-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
+		
+		self.urls   = [ settings.AMAZON_BASEURL + u for u in rel_urls ]
+		self.logger = logging.getLogger( __name__ )
+		self.logger.debug( self )
 	
 	def __iter__( self ):
 		return iter( self.filtered() )
 	
 	def __len__( self ):
 		return len( self.filtered() )
+	
+	def __str__( self ):
+		return "Wishlists: {} out of {} are selected".format( len( self ), len( self.urls ))
 	
 	def filtered( self ):
 		return [ u for u in self.urls if not u.startswith( tuple( settings.WISHLISTS_EXCLUDES ))]
@@ -110,7 +134,7 @@ class YourLists:
 class XmlWishlistReader:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
 		self._xml = XML.parse( filename ) 
-		
+	
 	def get_pricecut( self, product_id, new_price ):
 		old_price = self._xml.xpath( "/amazon/wishlist/product[@id='" + product_id + "']/@price" )
 		pricecut  = float(old_price[0]) - new_price if old_price else 0
@@ -183,8 +207,9 @@ class WishlistsSpider( scrapy.Spider ):
 	
 	# Spider:
 	def closed( self, reason ):
-		with XmlWishlistWriter() as w:
-			w.write_wl( self._lists )
+		if any( self._lists ):  # All lists empty => Scraping or config error
+			with XmlWishlistWriter() as w:
+				w.write_wl( self._lists )
 	
 	def parse( self, response ):
 		for url in YourLists( response ):
