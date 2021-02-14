@@ -53,6 +53,10 @@ $ ./wishlist.sh     # Assumes BROWSER environment variable set, otherwise starts
 - runtime is okay (53 long lists or 230 requests < 30 seconds)
 - if many lists fail with "503 Service Unavailable" you need to 
   increase `SCRAPY_SETTINGS.DOWNLOAD_DELAY` in settings.py
+- the Amazon bot detection sometimes presents CAPTCHAs instead of the wish list. 
+  This is reported as an error in the program output (`*** CAPTCHA bot block ***`). 
+  A program restart 5 minutes later, however, can run through again without any problems
+
 
 **Amazon wishlists without used prices:**
 - in some countries, Amazon no longer displayed the used prices (Germany in March 2020 but rolled back later):  
