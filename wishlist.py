@@ -223,7 +223,7 @@ class WishlistsSpider( scrapy.Spider ):
 	custom_settings = settings.SCRAPY_SETTINGS
 	
 	# My:
-	_lists = [];
+	_lists = []
 	
 	# Spider:
 	def closed( self, reason ):
