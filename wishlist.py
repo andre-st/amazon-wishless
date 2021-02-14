@@ -15,27 +15,32 @@ from lxml import etree as XML
 import settings
 
 
+# ----------------------------------------------------------------------------
+def is_captcha( response ):
+	return response.css( '#captchacharacters' )
+
+
 
 # ----------------------------------------------------------------------------
 class Product:
 	def __init__( self, li ):
 		self.id        = li.attrib['data-itemid']  # is not an ASIN
 		used_price_str = li.css( '.itemUsedAndNewPrice::text'  ).get( None         )
-		rel_url        = li.css( 'a[id^=itemName]::attr(href)' ).get( default = '' )
-		self.imgurl    = li.css( 'img::attr(src)'              ).get( default = '' )
+		rel_url        = li.css( 'a[id^=itemName]::attr(href)' ).get( default = '' ).strip()
+		self.imgurl    = li.css( 'img::attr(src)'              ).get( default = '' ).strip()
 		
 		# Since 2020-03-19 priorities are either literals ('MEDIUM') -OR- numeric (0),
 		# We need them as numbers in order to sort items etc.
 		# TODO: Probably more reliable to check classes rather than (internal) values
-		prioNumOrLit = li.css( '#itemPriority_' + self.id + '::text' ).get( default = 'MEDIUM' )
+		prioNumOrLit = li.css( '#itemPriority_' + self.id + '::text' ).get( default = 'MEDIUM' ).strip();
 		try:  # str() has no isnumeric() in Python 2, unicode() isnumeric can't negative values; this is rly recommended, sigh:
 			self.priority = int( prioNumOrLit )
 		except:
-		    	self.priority = { 'LOWEST' : -2,'LOW' : -1, 'MEDIUM' : 0, 'HIGH' : 1, 'HIGHEST' : 2 }[ prioNumOrLit ]
+			self.priority = { 'LOWEST' : -2,'LOW' : -1, 'MEDIUM' : 0, 'HIGH' : 1, 'HIGHEST' : 2 }[ prioNumOrLit ]
 		
-		self.comment   = li.css( '#itemComment_' + self.id + '::text' ).get( default = '' )
-		self.title     = li.css( '#itemName_'    + self.id + '::text' ).get( default = '' )
-		self.by        = li.css( '#item-byline-' + self.id + '::text' ).get( default = '' )
+		self.comment   = li.css( '#itemComment_' + self.id + '::text' ).get( default = '' ).strip()
+		self.title     = li.css( '#itemName_'    + self.id + '::text' ).get( default = '' ).strip()
+		self.by        = li.css( '#item-byline-' + self.id + '::text' ).get( default = '' ).strip()
 		self.is_prime  = bool( li.css( '.a-icon-prime' ));
 		self.url       = settings.AMAZON_BASEURL + rel_url
 		
@@ -107,13 +112,20 @@ class Wishlist:
 # ----------------------------------------------------------------------------
 class YourLists:
 	def __init__( self, response ):
+		self.logger = logging.getLogger( __name__ )
+	    
 		# Since 2021-01-09 either or:
 		rel_urls = response.css( '#your-lists-nav a[href^="/hz/wishlist/genericItemsPage/"]::attr(href)' ).getall()
 		if not rel_urls:
 			rel_urls = response.css( '#left-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
 		
-		self.urls   = [ settings.AMAZON_BASEURL + u for u in rel_urls ]
-		self.logger = logging.getLogger( __name__ )
+		if not rel_urls:
+			if is_captcha( response ):
+				self.logger.error( "Failed loading your lists: *** CAPTCHA bot block ***" )
+			else:
+				self.logger.error( "Failed loading your lists: Reason unknown." )
+		
+		self.urls = [ settings.AMAZON_BASEURL + u for u in rel_urls ]
 		self.logger.debug( self )
 	
 	def __iter__( self ):
