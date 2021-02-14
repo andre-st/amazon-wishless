@@ -75,12 +75,20 @@ class Product:
 # ----------------------------------------------------------------------------
 class Wishlist:
 	def __init__( self, response ):
-		self.logger         = logging.getLogger( __name__ )
-		self.url            = response.url
-		self.title          = response.css( '#profile-list-name::text' ).get( default = '' )
-		self.id             = response.css( '#listId::attr(value)'     ).get( default = '' )
-		self.products       = []
-		self.first_more_url = self.add_response( response )
+		self.logger   = logging.getLogger( __name__ )
+		self.url      = response.url
+		self.id       = response.css( '#listId::attr(value)' ).get( default = '' ).strip()
+		self.products = []
+		if self.id:
+			self.title          = response.css( '#profile-list-name::text' ).get( default = '' ).strip()
+			self.first_more_url = self.add_response( response )
+		else:
+			self.title          = '[Error title for ' + self.url + ']'
+			self.first_more_url = None;
+			if is_captcha( response ):
+				self.logger.error( "Failed loading wishlist: *** CAPTCHA bot block ***" )
+			else:
+				self.logger.error( "Failed loading wishlist: Unknown reason." )
 	
 	def __iter__( self ):
 		return iter( self.products )
