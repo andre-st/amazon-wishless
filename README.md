@@ -90,6 +90,16 @@ with placeholders.
 For your own XSLT-file just change the `WISHLISTS_XSLOUTPATH` value in `settings.py`.
 
 
+## Alternatives
+
+Due to the increasing number of CAPTCHA questions and my unwillingness to put
+more effort into it at the current time (automated login etc.), I have developed
+[a short script](https://gist.github.com/andre-st/ae556e9966738a5b3d7d2ff773196207) 
+that can be used with any Javascript Injector browser extension,
+e.g. [chrome-injectjs](https://github.com/andre-st/chrome-injectjs),
+and filters the wish lists in the browser while looking at them.
+
+
 ## Feedback
 
 If you like this project, you can "star" it on GitHub.
