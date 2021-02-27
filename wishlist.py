@@ -52,13 +52,13 @@ class Product:
 		
 		# Override default buy-price with specified one:
 		# "yadda {BUY $50.23} yadda", "blabla { kaufe ab 21,45 EUR}", "{ab 77} yadda" 
-		buyprice_mat = re.match( '{.*?(?P<amount>[0-9,.\']+).*?}', self.comment )
+		buyprice_mat = re.match( '.*?{.*?(?P<amount>[0-9,.\']+).*?}.*', self.comment )
 		if buyprice_mat:
 			self.buyprice = locale.atof( buyprice_mat.group( 'amount' ))   # Comma vs dot
 		
 		if used_price_str is not None:
 			self.is_prime = False;
-			used_price_mat = re.match( '(?P<amount>[0-9,.\']+)', used_price_str )
+			used_price_mat = re.match( '.*?(?P<amount>[0-9,.\']+).*', used_price_str )
 			if used_price_mat:
 				self.price = locale.atof( used_price_mat.group( 'amount' ))   # Comma vs dot
 		
