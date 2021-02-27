@@ -20,6 +20,19 @@ def is_captcha( response ):
 	return response.css( '#captchacharacters' )
 
 
+def listid_from_url( url ):
+	# wishlist/genericItemsPage/XXXXXXXXXXXXX
+	# wishlist/ls/XXXXXXXXXXXXXX
+	# lid=XXXXXXXXXXXXX
+	mat = re.match( '.*?(wishlist/genericItemsPage/|wishlist/ls/|lid=)(?P<id>[a-zA-Z0-9]+).*', url )
+	return mat.group( 'id' ) if mat else None
+
+
+def log_page_error( name, response, logger ):
+	reason = "*** CAPTCHA bot block ***" if is_captcha( response ) else "Reason unknown"
+	logger.error( " Failed loading {}: {} ({})".format( name, reason, response.url ))
+
+
 
 # ----------------------------------------------------------------------------
 class Product:
@@ -85,10 +98,7 @@ class Wishlist:
 		else:
 			self.title          = '[Error title for ' + self.url + ']'
 			self.first_more_url = None;
-			if is_captcha( response ):
-				self.logger.error( "Failed loading wishlist: *** CAPTCHA bot block ***" )
-			else:
-				self.logger.error( "Failed loading wishlist: Unknown reason." )
+			log_page_error( 'wishlist', response, self.logger )
 	
 	def __iter__( self ):
 		return iter( self.products )
@@ -105,7 +115,6 @@ class Wishlist:
 		self.products.extend( prods )
 		self.logger.debug( self )
 		
-		# Since 2012-01-09 either or
 		next_rel_url = response.css( 'a[href*="paginationToken="]::attr(href)' ).get()
 		if next_rel_url:
 			next_url = settings.AMAZON_BASEURL + next_rel_url
@@ -121,19 +130,17 @@ class Wishlist:
 class YourLists:
 	def __init__( self, response ):
 		self.logger = logging.getLogger( __name__ )
-	    
-		# Since 2021-01-09 either or:
-		rel_urls = response.css( '#your-lists-nav a[href^="/hz/wishlist/genericItemsPage/"]::attr(href)' ).getall()
+		rel_urls    = response.css( '#your-lists-nav a[href^="/hz/wishlist/genericItemsPage/"]::attr(href)' ).getall()
+		
 		if not rel_urls:
 			rel_urls = response.css( '#left-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
-		
 		if not rel_urls:
-			if is_captcha( response ):
-				self.logger.error( "Failed loading your lists: *** CAPTCHA bot block ***" )
-			else:
-				self.logger.error( "Failed loading your lists: Reason unknown." )
+			log_page_error( 'your lists', response, self.logger )
 		
-		self.urls = [ settings.AMAZON_BASEURL + u for u in rel_urls ]
+		self.list_ids     = [ listid_from_url( u ) for u in rel_urls ]
+		self.excluded_ids = [ listid_from_url( u ) for u in settings.WISHLISTS_EXCLUDES ]
+		self.urls         = [ settings.AMAZON_BASEURL + '/hz/wishlist/genericItemsPage/' + lid for lid in self.list_ids ];
+		
 		self.logger.debug( self )
 	
 	def __iter__( self ):
@@ -146,7 +153,7 @@ class YourLists:
 		return "Wishlists: {} out of {} are selected".format( len( self ), len( self.urls ))
 	
 	def filtered( self ):
-		return [ u for u in self.urls if not u.startswith( tuple( settings.WISHLISTS_EXCLUDES ))]
+		return [ u for u in self.urls if listid_from_url( u ) not in self.excluded_ids ]
 
 
 
@@ -210,8 +217,6 @@ class XmlWishlistWriter:
 					XML.SubElement( p_elem, 'by'      ).text = product.by
 					XML.SubElement( p_elem, 'comment' ).text = product.comment
 					XML.SubElement( p_elem, 'price'   ).text = product.price_l10n  # Localized format with currency
-	
-	
 
 
 
@@ -219,7 +224,7 @@ class XmlWishlistWriter:
 class WishlistsSpider( scrapy.Spider ):
 	# Spider:
 	name            = 'wishlists'
-	start_urls      = [ settings.WISHLISTS_URL_ANY ]
+	start_urls      = [ settings.WISHLISTS_URL_ANY.replace( "/ls/", "/genericItemsPage/", 1 )]  # Avoid redir
 	custom_settings = settings.SCRAPY_SETTINGS
 	
 	# My:
