@@ -2,6 +2,12 @@
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2021.svg)
 
+
+| :warning: Amazon's aggressive bot detection (CAPTCHA) prevents the final report from being as useful as it used to be. Today, I [filter the wishlists "live"](https://gist.github.com/andre-st/ae556e9966738a5b3d7d2ff773196207) with a Javascript injection [browser extension](https://github.com/andre-st/chrome-injectjs). It's all slower and more cumbersome, but it helps. |
+| --- |
+
+
+
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current, continuously changing 2nd hand prices 
 against my budget is time consuming. 
@@ -99,13 +105,6 @@ or see the [AUTHORS.md](AUTHORS.md) file.
 
 ## See also
 
-
-- Due to the increasing number of CAPTCHA questions and my unwillingness to put
-  more effort into it at the current time (automated login etc.), I have developed
-  [a short script](https://gist.github.com/andre-st/ae556e9966738a5b3d7d2ff773196207) 
-  that can be used with any Javascript Injector browser extension,
-  e.g. [chrome-injectjs](https://github.com/andre-st/chrome-injectjs),
-  and filters the wish lists in the browser while looking at them.
 - [Andre's Goodreads Toolbox](https://github.com/andre-st/goodreads/blob/master/README.md)
 
 
