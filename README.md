@@ -1,9 +1,9 @@
 # Amazon-Wishlists Export & Price-Monitor, v1.4.9
 
-![Maintenance](https://img.shields.io/maintenance/yes/2021.svg)
+![Maintenance](https://img.shields.io/maintenance/no/2021.svg)
 
 
-| :warning: Amazon's aggressive bot detection (CAPTCHA) prevents the final report from being as useful as it used to be. Today, I [filter the wishlists "live"](https://gist.github.com/andre-st/ae556e9966738a5b3d7d2ff773196207) with a Javascript injection [browser extension](https://github.com/andre-st/chrome-injectjs). It's all slower and more cumbersome, but it helps. |
+| :warning: Amazon's aggressive bot detection (lot of captchas) prevents the final report from being as useful as it used to be. So I turned to [in-browser filtering the wishlists](https://gist.github.com/andre-st/ae556e9966738a5b3d7d2ff773196207) using a Javascript injection [browser extension](https://github.com/andre-st/chrome-injectjs). It's all slower and more cumbersome than reading any report of this project, but it's better than nothing. |
 | --- |
 
 
