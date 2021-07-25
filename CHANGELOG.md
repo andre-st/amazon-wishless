@@ -13,11 +13,19 @@ Version number 1.MINOR.PATCH, increments:
 - see [GitHub issues labeled "Soon"](https://github.com/andre-st/amazon-wishless/issues?q=is%3Aopen+is%3Aissue+label%3Asoon)
 
 
+## [v1.4.10] - 2021-07-25
+### Fixed
+- used-price wasn't extracted any longer due to additional new lines in the source HTML and
+  confusion over Python's regex library: re.match() and re.search() same but one is multiline
+
+
+
 ## [v1.4.9] - 2021-01-17
 ### Fixed
 - Amazon modified its wishlists webpage; we retain backwards compatability to older page versions
 - Sometimes there are scraping errors from the very start and you have to restart the program; 
   in earlier versions the final HTML report was mistakenly (re-)written with 0 books
+
 
 
 ## [v1.4.7] - 2020-06-08
