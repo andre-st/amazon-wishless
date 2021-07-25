@@ -7,7 +7,6 @@
 | --- |
 
 
-
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current, continuously changing 2nd hand prices 
 against my budget is time consuming. 
