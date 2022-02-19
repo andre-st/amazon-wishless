@@ -36,7 +36,7 @@
 		<body>
 			<h1>Amazon-Lists Used &amp; New</h1>
 			
-			<a class="credits" href="https://github.com/andre-st/amazon-wishlist" target="_blank">GitHub</a>
+			<a class="credits" href="https://github.com/andre-st/amazon-wishless" target="_blank">GitHub</a>
 			
 			<section class="smartlist latest">
 				<h2>Latest price-cut</h2>

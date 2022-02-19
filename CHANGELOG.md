@@ -13,6 +13,12 @@ Version number 1.MINOR.PATCH, increments:
 - see [GitHub issues labeled "Soon"](https://github.com/andre-st/amazon-wishless/issues?q=is%3Aopen+is%3Aissue+label%3Asoon)
 
 
+## [v1.5] - 2022-02-19
+### Changed
+- Moved project to Python 3, Python 2 no longer supported
+
+
+
 ## [v1.4.10] - 2021-07-25
 ### Fixed
 - used-price wasn't extracted any longer due to additional new lines in the source HTML and

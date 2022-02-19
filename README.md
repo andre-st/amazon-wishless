@@ -1,4 +1,4 @@
-# Amazon-Wishlists Export & Price-Monitor, v1.4.10
+# Amazon-Wishlists Export & Price-Monitor, v1.5
 
 ![Maintenance](https://img.shields.io/maintenance/yes/2021.svg)
 
@@ -23,7 +23,7 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 ## Requirements
 
 - tested on the GNU/Linux operating system but might work on everything which runs Scrapy
-- Python 2.7.16
+- Python 3
 - Scrapy 1.8.0 (Python web crawling framework)
 - lxml (Python XML library)
 - pip (package installer for Python) to install dependencies 
@@ -35,11 +35,11 @@ The XML-file is displayed with all items filtered and re-ordered according to pr
 GNU/Linux terminal:
 
 ```console
-$ pip2.7 install scrapy lxml     # Install dependencies
+$ python -m pip install scrapy lxml  # Install dependencies
 $ git clone https://github.com/andre-st/amazon-wishless
 $ cd amazon-wishless
 $ mv settings.py-example settings.py
-$ vi settings.py                 # vi or any other editor
+$ vi settings.py                     # vi or any other editor
 
 Edit your wishlists settings
 Edit your localization settings

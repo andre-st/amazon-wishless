@@ -2,7 +2,7 @@
 # vim: set noai noexpandtab sts=0:
 
 import locale
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 
 # Note: There are settings in `wishlist.xslt` too!
@@ -68,7 +68,7 @@ WISHLISTS_XSLOUTPATH = './wishlist.html'
 ## Edit your localization settings:
 ##
 DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # RFC 5646 language tags:  'de', 'en', ... 
-locale.setlocale( locale.LC_ALL, 'de_DE' )               # Locale values: 'de_DE', 'en_US', 'en_GB', ...
+locale.setlocale( locale.LC_ALL, 'de_DE.UTF-8' )         # Locale values: 'de_DE.UTF-8', 'en_US.UTF-8', 'en_GB.UTF-8', ...
 AMAZON_HOST    = urlparse( WISHLISTS_URL_ANY ).netloc    # Don't change.
 AMAZON_BASEURL = 'https://' + AMAZON_HOST                # Don't change.
 
