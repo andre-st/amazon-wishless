@@ -1,6 +1,6 @@
 # Amazon-Wishlists Export & Price-Monitor, v1.5
 
-![Maintenance](https://img.shields.io/maintenance/yes/2021.svg)
+![Maintenance](https://img.shields.io/maintenance/yes/2022.svg)
 
 
 | :warning: Amazon's bot detection (CAPTCHA) prevents the final report from being as useful as it used to be. Sometimes it works without any CAPTCHA, sometimes it's completly unusable. |
