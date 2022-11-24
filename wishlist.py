@@ -138,7 +138,10 @@ class YourLists:
 		
 		self.list_ids     = [ listid_from_url( u ) for u in rel_urls ]
 		self.excluded_ids = [ listid_from_url( u ) for u in settings.WISHLISTS_EXCLUDES ]
-		self.urls         = [ settings.AMAZON_BASEURL + '/hz/wishlist/genericItemsPage/' + lid for lid in self.list_ids ];
+		self.urls         = [ settings.AMAZON_BASEURL + 
+				'/hz/wishlist/genericItemsPage/' + 
+				lid + 
+				'?type=wishlist&filter=unpurchased&sort=priority&viewType=list' for lid in self.list_ids ];
 		
 		self.logger.debug( self )
 	
