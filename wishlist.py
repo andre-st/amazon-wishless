@@ -126,40 +126,6 @@ class Wishlist:
 
 
 # ----------------------------------------------------------------------------
-class YourLists:
-	def __init__( self, response ):
-		self.logger = logging.getLogger( __name__ )
-		rel_urls    = response.css( '#your-lists-nav a[href^="/hz/wishlist/genericItemsPage/"]::attr(href)' ).getall()
-		
-		if not rel_urls:
-			rel_urls = response.css( '#left-nav a[href^="/hz/wishlist/ls/"]::attr(href)' ).getall()
-		if not rel_urls:
-			log_page_error( 'your lists', response, self.logger )
-		
-		self.list_ids     = [ listid_from_url( u ) for u in rel_urls ]
-		self.excluded_ids = [ listid_from_url( u ) for u in settings.WISHLISTS_EXCLUDES ]
-		self.urls         = [ settings.AMAZON_BASEURL + 
-				'/hz/wishlist/genericItemsPage/' + 
-				lid + 
-				'?type=wishlist&filter=unpurchased&sort=priority&viewType=list' for lid in self.list_ids ];
-		
-		self.logger.debug( self )
-	
-	def __iter__( self ):
-		return iter( self.filtered() )
-	
-	def __len__( self ):
-		return len( self.filtered() )
-	
-	def __str__( self ):
-		return "Wishlists: {} out of {} are selected".format( len( self ), len( self.urls ))
-	
-	def filtered( self ):
-		return [ u for u in self.urls if listid_from_url( u ) not in self.excluded_ids ]
-
-
-
-# ----------------------------------------------------------------------------
 class XmlWishlistReader:
 	def __init__( self, filename = settings.WISHLISTS_XMLPATH ):
 		self._xml = XML.parse( filename ) 
@@ -226,7 +192,7 @@ class XmlWishlistWriter:
 class WishlistsSpider( scrapy.Spider ):
 	# Spider:
 	name            = 'wishlists'
-	start_urls      = [ settings.WISHLISTS_URL_ANY.replace( "/ls/", "/genericItemsPage/", 1 )]  # Avoid redir
+	start_urls      = [ wl[0] for wl in settings.WISHLISTS ]
 	custom_settings = settings.SCRAPY_SETTINGS
 	
 	# My:
@@ -238,12 +204,8 @@ class WishlistsSpider( scrapy.Spider ):
 			with XmlWishlistWriter() as w:
 				w.write_wl( self._lists )
 	
-	def parse( self, response ):
-		for url in YourLists( response ):
-			yield Request( url, callback = self.parse_wl )
-	
 	# My:
-	def parse_wl( self, response, wishlist = None ):
+	def parse( self, response, wishlist = None ):
 		if wishlist:
 			more_url = wishlist.add_response( response )
 		else:
@@ -253,7 +215,7 @@ class WishlistsSpider( scrapy.Spider ):
 		
 		# Infinite scroll "pagination"
 		if more_url:
-			yield Request( more_url, callback = self.parse_wl, cb_kwargs = { 'wishlist': wishlist })
+			yield Request( more_url, callback = self.parse, cb_kwargs = { 'wishlist': wishlist })
 
 
 

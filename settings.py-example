@@ -33,21 +33,26 @@ WISHLISTS_BUYPRICES = {
 	 2    :   20.0    # "Must have"
 }
 
-# Specify any of your wishlist URLs.
-#   The program will find all your other wishlists through this URL.
-#   Todo: How to get a *public* Amazon-Wishlist-link.
-#   Use an absolute URL starting with 'https':
-#
-WISHLISTS_URL_ANY = 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/ref=cm_go_nav_hz'
 
-# By default, we export all your wishlists, but we can exclude some lists here.
-#   Mabye, you only want lists with books but not clothes or computer hardware.
-#   Use absolute wishlist URLs starting with 'https':
+# 2023-06-01: Amazon no longer displays all listnames to non-authenticated users, just items.
+# So we have to reverse logic from explict exclusion with all lists being loaded by default
+# to explicit inclusion of lists which is usually more laborsome to users
+# and error-prone in terms of missing/forgetting to add new list here over time.
 #
-WISHLISTS_EXCLUDES = [
-	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/',  # My list 1
-	'https://www.amazon.de/hz/wishlist/ls/EXAMPLE3/'   # My list 2
+# To get all URLs at once, I visit one of my wishlists in my Chrome browser
+# and use Chrome's Devtools console:
+# 1. Type and press enter:
+#    >  Array.from( document.querySelectorAll( '.wl-list a' )).map( x => [ x.href.split( '?' )[0], x.querySelector( '[id^="wl-list-entry-title"]' ).textContent.trim() ])
+# 2. Right-click on the console output "Array(2),Array(2),..." and select "copy object"
+# 3. Paste here between brackets of WISHLISTS = [ ... ] 
+# 4. Optionally search-replace "]," to "],\r" (newlines in Vim) 
+#    and comment out excluded lists
+#
+WISHLISTS = [
+	[ 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE1/',  'My list 1' ],
+	[ 'https://www.amazon.de/hz/wishlist/ls/EXAMPLE2/',  'My list 2' ],
 ]
+
 
 # Names of the exported files.
 #   Default: './wishlist.xml'

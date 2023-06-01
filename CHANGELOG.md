@@ -13,6 +13,19 @@ Version number 1.MINOR.PATCH, increments:
 - see [GitHub issues labeled "Soon"](https://github.com/andre-st/amazon-wishless/issues?q=is%3Aopen+is%3Aissue+label%3Asoon)
 
 
+## [v1.6] - 2023-06-01
+This version breaks your existing installation. 
+But your old installation might be already dysfunctional 
+because Amazon removed the list of wishlists for non-authenticated users.
+
+### Changed
+- settings.py: `WISHLISTS_EXCLUDES` removed, 
+  you have to add your relevant wishlists to `WISHLISTS` now;
+  so we turned from explicit exclusion with all lists loaded by default 
+  to explicit inclusion.
+
+
+
 ## [v1.5] - 2022-02-19
 ### Changed
 - Moved project to Python 3, Python 2 no longer supported

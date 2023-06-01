@@ -1,11 +1,6 @@
-# Amazon-Wishlists Export & Price-Monitor, v1.5
+# Amazon-Wishlists Export & Price-Monitor, v1.6
 
-![Maintenance](https://img.shields.io/maintenance/yes/2022.svg)
-
-
-| :warning: Amazon's bot detection (CAPTCHA) prevents the final report from being as useful as it used to be. Sometimes it works without any CAPTCHA, sometimes it's completly unusable. |
-| --- |
-
+![Maintenance](https://img.shields.io/maintenance/yes/2023.svg)
 
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current, continuously changing 2nd hand prices 
