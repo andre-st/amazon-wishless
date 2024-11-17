@@ -57,7 +57,7 @@ WISHLISTS = [
 # Names of the exported files.
 #   Default: './wishlist.xml'
 #
-WISHLISTS_XMLPATH    = './wishlist.xml'
+WISHLISTS_XMLPATH = './wishlist.xml'
 #
 #   Filename of the HTML report (or any other XSLT product).
 #   If you change the name, you have to rename wishlist.xslt accordingly.
@@ -74,7 +74,7 @@ WISHLISTS_XSLOUTPATH = './wishlist.html'
 ##
 DEFAULT_REQUEST_HEADERS = { 'Accept-Language': 'de' }    # RFC 5646 language tags:  'de', 'en', ... 
 locale.setlocale( locale.LC_ALL, 'de_DE.UTF-8' )         # Locale values: 'de_DE.UTF-8', 'en_US.UTF-8', 'en_GB.UTF-8', ...
-AMAZON_HOST    = urlparse( WISHLISTS_URL_ANY ).netloc    # Don't change.
+AMAZON_HOST    = urlparse( WISHLISTS[0][0] ).netloc      # Don't change.
 AMAZON_BASEURL = 'https://' + AMAZON_HOST                # Don't change.
 
 
