@@ -114,14 +114,13 @@ class Wishlist:
 		self.products.extend( prods )
 		self.logger.debug( self )
 		
-		next_rel_url = response.css( 'a[href*="paginationToken="]::attr(href)' ).get()
-		if next_rel_url:
-			next_url = settings.AMAZON_BASEURL + next_rel_url
-		else:
-			lek      = response.css( 'input[name="lastEvaluatedKey"]::attr(value)' ).get()
-			next_url = self.url + '?lek=' + lek if lek else None
+		# Last showMoreUrl of the last page just gets us the first 10 items again
+		# lastEvaluatedKey, however, is empty, therefore we use this as exit condition
+		#
+		next_rel_url = response.xpath( "(//input[@name='showMoreUrl'])[last()]/@value"      ).get()
+		lek          = response.xpath( "(//input[@name='lastEvaluatedKey'])[last()]/@value" ).get()
 		
-		return next_url
+		return settings.AMAZON_BASEURL + next_rel_url if lek and next_rel_url else None
 
 
 
