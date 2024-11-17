@@ -13,6 +13,13 @@ Version number 1.MINOR.PATCH, increments:
 - see [GitHub issues labeled "Soon"](https://github.com/andre-st/amazon-wishless/issues?q=is%3Aopen+is%3Aissue+label%3Asoon)
 
 
+## [v1.7] - 2024-11-17
+### Fixed
+- Issue #3 "infinite scrolling not working"
+- settings.py-example: `WISHLIST_ANY_URL` was removed but still used to construct `AMAZON_HOST`
+
+
+
 ## [v1.6] - 2023-06-01
 This version breaks your existing installation. 
 But your old installation might be already dysfunctional 

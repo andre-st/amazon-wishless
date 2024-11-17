@@ -1,6 +1,6 @@
-# Amazon-Wishlists Export & Price-Monitor, v1.6
+# Amazon-Wishlists Export & Price-Monitor, v1.7
 
-![Maintenance](https://img.shields.io/maintenance/yes/2023.svg)
+![Maintenance](https://img.shields.io/maintenance/yes/2024.svg)
 
 I have over 60 Amazon wishlists and in some lists sometimes 100 products, mainly books. 
 I often buy used books and checking all current, continuously changing 2nd hand prices 
